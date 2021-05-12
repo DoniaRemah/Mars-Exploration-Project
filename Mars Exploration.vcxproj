@@ -139,10 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CancellationEvent.cpp" />
-    <ClCompile Include="Events.cpp" />
+    <ClCompile Include="Events\CancellationEvent.cpp" />
+    <ClCompile Include="Events\Events.cpp" />
+    <ClCompile Include="Events\FormulationEvent.cpp" />
     <ClCompile Include="Events\PromotionEvent.cpp" />
-    <ClCompile Include="FormulationEvent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MarsStation\MarsStation.cpp" />
     <ClCompile Include="Missions\Missions.cpp" />
@@ -153,7 +153,6 @@
     <ClInclude Include="CancellationEvent.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Events\PromotionEvent.h" />
-    <ClInclude Include="FormulationEvent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MarsStation\MarsStation.h" />
     <ClInclude Include="Missions\Missions.h" />

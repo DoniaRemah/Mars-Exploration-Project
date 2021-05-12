@@ -28,15 +28,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Events.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="FormulationEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="CancellationEvent.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="Events\PromotionEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
@@ -51,6 +42,15 @@
     </ClCompile>
     <ClCompile Include="MarsStation\MarsStation.cpp">
       <Filter>Mars Station</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\CancellationEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\Events.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\FormulationEvent.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,9 +67,6 @@
       <Filter>Data Structures</Filter>
     </ClInclude>
     <ClInclude Include="Events.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="FormulationEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="CancellationEvent.h">
