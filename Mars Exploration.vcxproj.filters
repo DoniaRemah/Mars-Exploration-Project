@@ -11,6 +11,18 @@
     <Filter Include="Events">
       <UniqueIdentifier>{bf2aaa12-c468-4cce-a031-e0bebf5501d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Missions">
+      <UniqueIdentifier>{bd3c5275-e916-47e7-a17f-bca720b85c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{1d5c07a5-ff5b-4a60-8450-9ec565c2652a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rovers">
+      <UniqueIdentifier>{67990f11-a0b1-4e40-842e-e67ce3410cbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mars Station">
+      <UniqueIdentifier>{b07a8958-296b-4c6d-8fa9-8e44ff59a0cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -24,6 +36,21 @@
     </ClCompile>
     <ClCompile Include="CancellationEvent.cpp">
       <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\PromotionEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Missions\Missions.cpp">
+      <Filter>Missions</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Rovers\Rovers.cpp">
+      <Filter>Rovers</Filter>
+    </ClCompile>
+    <ClCompile Include="MarsStation\MarsStation.cpp">
+      <Filter>Mars Station</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +74,21 @@
     </ClInclude>
     <ClInclude Include="CancellationEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\PromotionEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Missions\Missions.h">
+      <Filter>Missions</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Rovers\Rovers.h">
+      <Filter>Rovers</Filter>
+    </ClInclude>
+    <ClInclude Include="MarsStation\MarsStation.h">
+      <Filter>Mars Station</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

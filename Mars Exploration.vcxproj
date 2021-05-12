@@ -141,17 +141,27 @@
   <ItemGroup>
     <ClCompile Include="CancellationEvent.cpp" />
     <ClCompile Include="Events.cpp" />
+    <ClCompile Include="Events\PromotionEvent.cpp" />
     <ClCompile Include="FormulationEvent.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MarsStation\MarsStation.cpp" />
+    <ClCompile Include="Missions\Missions.cpp" />
+    <ClCompile Include="Rovers\Rovers.cpp" />
+    <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CancellationEvent.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="Events\PromotionEvent.h" />
     <ClInclude Include="FormulationEvent.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="MarsStation\MarsStation.h" />
+    <ClInclude Include="Missions\Missions.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Rovers\Rovers.h" />
+    <ClInclude Include="UI\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
