@@ -54,18 +54,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Node.h">
-      <Filter>Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedList.h">
-      <Filter>Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="PriorityQueue.h">
-      <Filter>Data Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Events\PromotionEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -92,6 +80,18 @@
     </ClInclude>
     <ClInclude Include="Events\CancellationEvent.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Structures\LinkedList.h">
+      <Filter>Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Structures\Node.h">
+      <Filter>Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Structures\PriorityQueue.h">
+      <Filter>Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Data Structures\Queue.h">
+      <Filter>Data Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

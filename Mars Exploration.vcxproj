@@ -150,17 +150,17 @@
     <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data Structures\LinkedList.h" />
+    <ClInclude Include="Data Structures\Node.h" />
+    <ClInclude Include="Data Structures\PriorityQueue.h" />
+    <ClInclude Include="Data Structures\Queue.h" />
     <ClInclude Include="Defs.h" />
     <ClInclude Include="Events\CancellationEvent.h" />
     <ClInclude Include="Events\Events.h" />
     <ClInclude Include="Events\FormulationEvent.h" />
     <ClInclude Include="Events\PromotionEvent.h" />
-    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MarsStation\MarsStation.h" />
     <ClInclude Include="Missions\Missions.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="PriorityQueue.h" />
-    <ClInclude Include="Queue.h" />
     <ClInclude Include="Rovers\Rovers.h" />
     <ClInclude Include="UI\UI.h" />
   </ItemGroup>
