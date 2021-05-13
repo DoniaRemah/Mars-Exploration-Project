@@ -150,8 +150,10 @@
     <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CancellationEvent.h" />
-    <ClInclude Include="Events.h" />
+    <ClInclude Include="Defs.h" />
+    <ClInclude Include="Events\CancellationEvent.h" />
+    <ClInclude Include="Events\Events.h" />
+    <ClInclude Include="Events\FormulationEvent.h" />
     <ClInclude Include="Events\PromotionEvent.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="MarsStation\MarsStation.h" />

@@ -66,12 +66,6 @@
     <ClInclude Include="PriorityQueue.h">
       <Filter>Data Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Events.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="CancellationEvent.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="Events\PromotionEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -86,6 +80,18 @@
     </ClInclude>
     <ClInclude Include="MarsStation\MarsStation.h">
       <Filter>Mars Station</Filter>
+    </ClInclude>
+    <ClInclude Include="Defs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\FormulationEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\Events.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CancellationEvent.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
