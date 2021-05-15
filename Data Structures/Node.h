@@ -11,14 +11,17 @@ public:
 
 	// All member Functions are to be defined here
 
-	Node(T d); // Constructor
+	// Constructors 
+
+	Node(); // defualt constructor (omittable)
+	Node(T d); // Non-defualt Constructor
 
 	//Setters
-	void SetNext(T n);
+	void SetNext(Node<T>* n);
 	void SetData(T d);
 
 	//Getters
-	Node* GetNext();
+	Node<T>* GetNext();
 	T GetData();
 
 	~Node(); // Destructor
