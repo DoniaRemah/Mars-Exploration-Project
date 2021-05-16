@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-class Events
+class Event
 {
 protected:
 	int Day;
@@ -9,6 +9,7 @@ protected:
 
 public:
 
-	Events(int d, int id); // Constructor
-	virtual void Execute() = 0;
+	Event(int d, int id); // Constructor
+	virtual void Execute();
+	~Event(); // Destructor
 };

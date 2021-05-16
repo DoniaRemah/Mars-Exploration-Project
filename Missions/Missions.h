@@ -19,8 +19,6 @@ private:
 	int Significance;
 	int TLocation;
 
-	bool AutoPromotion; // Set to False 
-
 public:
 
 	Mission(MissionType T, int id, int FD, int MD, int sig, int TL); // Constructor (Initializing Input Data)
@@ -32,15 +30,9 @@ public:
 
 	// Getters
 	int GetID();
-	bool GetAutoP(); // gets status of AutoPromotion
 	int GetFD(); // Gets Formulation Day
 	int GetWD(); // Gets Waiting Days
 	int GetED(); // Gets Execution Days
-
-	// Setters
-
-	void SetAutoP(bool status);
-
 
 	~Mission(); // Destructor
 

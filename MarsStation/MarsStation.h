@@ -24,16 +24,15 @@ private:
 
 	float Avg_Wait; // average waiting time
 	float Avg_InExec;  // average In Execution time
-	float AutoProm_Perc; // AutoPromotion percentage
 
 	// Lists 
 
-	Queue<Events> Events; // List of all Events in Simulation (From Input File)
+	Queue<Event> Events; // List of all Events in Simulation (From Input File)
 
 	// Waiting Missions Lists
 	PriorityQueue<Mission> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
 	Queue<Mission> Waiting_PM; // List of Waiting polar missions (First in First Out)
-	LinkedList<Mission> Waiting_MM; // List of Waiting Mountain missions (First in First Out)
+	Queue<Mission> Waiting_MM; // List of Waiting Mountain missions (First in First Out)
 
 	// Available Rovers Lists
 	Queue<Rover> Av_EM; // List of Available Emergency Rovers
