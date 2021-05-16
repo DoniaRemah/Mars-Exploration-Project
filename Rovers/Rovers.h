@@ -1,7 +1,7 @@
 #pragma once
 #include "..\MarsStation\MarsStation.h"
 #include "..\Defs.h"
-
+#include "..\Missions\Missions.h"
 class Rover
 {
 private:
@@ -15,6 +15,8 @@ private:
 
 	bool InCheckUp; 
 	bool IsAvailable;
+
+	Mission* m_mission; // Pointer to mission the rover is assigned to. Initially set to Null
 
 public:
 

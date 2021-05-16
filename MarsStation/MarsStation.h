@@ -14,11 +14,9 @@ private:
 	UI* UI_ptr; // ptr to class dealing with input/output
 
 	int Day;
-	int num_MM; // total number of mountain missions
 	int num_PM; // total number of Polar missions
 	int num_EM; // total number of Emergency missions
 
-	int num_MR; // total number of mountain Rovers
 	int num_PR; // total number of Polar Rovers
 	int num_ER; // total number of Emergency Rovers
 
@@ -32,22 +30,18 @@ private:
 	// Waiting Missions Lists
 	PriorityQueue<Mission> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
 	Queue<Mission> Waiting_PM; // List of Waiting polar missions (First in First Out)
-	Queue<Mission> Waiting_MM; // List of Waiting Mountain missions (First in First Out)
 
 	// Available Rovers Lists
-	Queue<Rover> Av_EM; // List of Available Emergency Rovers
-	Queue<Rover> Av_PM; // List of Available polar Rovers
-	Queue<Rover> Av_MM; // List of Available Mountain Rovers
+	Queue<Rover> Av_ER; // List of Available Emergency Rovers
+	Queue<Rover> Av_PR; // List of Available polar Rovers
 
 	// UnAvailable Rovers Lists
-	PriorityQueue<Rover> InCheckUp_rov; // In check up rovers
-	PriorityQueue<Rover> OnAMission_rov; // Rovers on a mission
-
-	// Mission In- Execution
-	PriorityQueue<Mission> InExec_M; // List of In-Execution Missions 
+	Queue<Rover> InCheckUp_PR; // In check up Polar rovers
+	Queue<Rover> InCheckUp_ER; // In check up Emergency rovers
+	PriorityQueue<Rover> InExec_rov; // Rovers on a mission
 
 	// Completed Missions
-	PriorityQueue<Mission> Completed_M; // List of Completed Missions 
+	Queue<Mission> Completed_M; // List of Completed Missions 
 
 public:
 

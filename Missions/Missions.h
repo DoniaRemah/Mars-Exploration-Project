@@ -1,12 +1,9 @@
 #pragma once
 #include "..\Defs.h"
-#include "..\Rovers\Rovers.h"
 
 class Mission
 {
 private:
-
-	Rover* m_Rover; // Pointer to rover assigned to mission. Initially Set to Null
 
 	MissionType Type;
 

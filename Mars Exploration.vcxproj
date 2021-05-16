@@ -147,7 +147,6 @@
     <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Data Structures\LinkedList.h" />
     <ClInclude Include="Data Structures\Node.h" />
     <ClInclude Include="Data Structures\PriorityQueue.h" />
     <ClInclude Include="Data Structures\Queue.h" />

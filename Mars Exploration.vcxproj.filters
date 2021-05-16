@@ -63,9 +63,6 @@
     <ClInclude Include="Events\Events.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="Data Structures\LinkedList.h">
-      <Filter>Data Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Data Structures\Node.h">
       <Filter>Data Structures</Filter>
     </ClInclude>
