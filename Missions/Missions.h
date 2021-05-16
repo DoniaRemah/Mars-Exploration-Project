@@ -15,6 +15,7 @@ private:
 	int MissionDuration;
 	int Significance;
 	int TLocation;
+	float priority; // For emergency missions only. Initially set to 0.
 
 public:
 
