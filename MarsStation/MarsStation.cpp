@@ -1,6 +1,9 @@
 #include "MarsStation.h"
 #include<fstream>
 #include"../UI/UI.h"
+MarsStation::MarsStation()
+{
+}
 void MarsStation::Load()
 {
 	//getting file name from the user
@@ -104,6 +107,10 @@ void MarsStation::AddtoRoverQ(ifstream & file)
 void MarsStation::ReadMode()
 {
 	UI_ptr->ReadMode();
+}
+
+MarsStation::~MarsStation()
+{
 }
 
 bool MarsStation::End_Sim() 

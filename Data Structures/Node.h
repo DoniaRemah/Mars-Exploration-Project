@@ -57,6 +57,9 @@ public:
 		return Priority;
 	}
 
-	~Node(); // Destructor
+	~Node() // Destructor
+	{
+
+	}
 };
 
