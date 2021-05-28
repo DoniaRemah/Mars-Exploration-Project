@@ -21,6 +21,7 @@ private:
 
 	float Avg_Wait; // average waiting time
 	float Avg_InExec;  // average In Execution time
+	
 
 	// Lists 
 
@@ -60,7 +61,7 @@ public:
 
 	// UI Functions
 
-	Mode ReadMode(); // Calls on UI to read mode from user.
+	void ReadMode(); // Calls on UI to read mode from user.
 	void PrintOutput(); //Calls on Printoutput from UI
 
 

@@ -24,6 +24,7 @@ public:
 
 	void ResetMissions(); // Resets number of executed missions to 0
 	void IncrementMissions(); // Increments number of Executed missions after one is completed
+	void Assign(Mission* R); //Assigning a rover to a mission
 
 	// Setters 
 
@@ -35,6 +36,8 @@ public:
 	bool GetAvailable(); // Gets available status
 	bool GetInCheckup(); // Gets Incheckup Status
 	int GetNumOfMissions(); // Gets number of executed Missions by this rover
+	int GetSpeed(); //Returns the rover speed
+	Mission* GetMission(); //Returns the pointer to the mission the rover is assigned to
 
 	~Rover(); // Destructor
 };
