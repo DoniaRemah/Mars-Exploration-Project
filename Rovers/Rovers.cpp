@@ -16,6 +16,15 @@ void Rover::Assign(Mission* M)
 }
 
 
+int Rover::GetSpeed() 
+{
+	return speed;
+}
+
+Mission* Rover::GetMission()
+{
+	return m_mission;
+}
 
 
 
