@@ -3,6 +3,7 @@ using namespace std;
 #include<iostream>
 #include<string>
 #include"../Defs.h"
+
 void UI::OutputStr(string str)
 {
 	cout << str << endl;
