@@ -27,29 +27,31 @@ private:
 	Queue<Event> Events; // List of all Events in Simulation (From Input File)
 
 	// Waiting Missions Lists
-	PriorityQueue<Mission> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
-	Queue<Mission> Waiting_PM; // List of Waiting polar missions (First in First Out)
+	PriorityQueue<Mission*> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
+	Queue<Mission*> Waiting_PM; // List of Waiting polar missions (First in First Out)
 
 	// Available Rovers Lists
-	Queue<Rover> Av_ER; // List of Available Emergency Rovers
-	Queue<Rover> Av_PR; // List of Available polar Rovers
+	Queue<Rover*> Av_ER; // List of Available Emergency Rovers
+	Queue<Rover*> Av_PR; // List of Available polar Rovers
 
 	// UnAvailable Rovers Lists
-	Queue<Rover> InCheckUp_PR; // In check up Polar rovers
-	Queue<Rover> InCheckUp_ER; // In check up Emergency rovers
-	PriorityQueue<Rover> InExec_rov; // Rovers on a mission
+	Queue<Rover*> InCheckUp_PR; // In check up Polar rovers
+	Queue<Rover*> InCheckUp_ER; // In check up Emergency rovers
+	PriorityQueue<Rover*> InExec_rov; // Rovers on a mission
 
 	// Completed Missions
-	Queue<Mission> Completed_M; // List of Completed Missions 
+	Queue<Mission*> Completed_M; // List of Completed Missions 
 
 public:
 
 	MarsStation(); // Constructor 
 
 	////////////////////////////////////////////////
-	// Load();
-	// Save(); 
+	void Load();
+	void Save();
 	///////////////////////////////////////////////
+	void AddtoRoverQ(ifstream&); //Adds rovers to a waiting rovers' Queue
+	void AddtoEventQ(ifstream &,int); //Add Events to events' Q
 
 	//Simulation Functions
 
@@ -65,5 +67,5 @@ public:
 
 
 	// Destructor
-	~MarsStation(); 
+	~MarsStation();
 };
