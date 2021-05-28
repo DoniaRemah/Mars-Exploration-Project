@@ -24,6 +24,7 @@ public:
 
 	void ResetMissions(); // Resets number of executed missions to 0
 	void IncrementMissions(); // Increments number of Executed missions after one is completed
+	void Assign(Mission* R); //Assigning a rover to a mission
 
 	// Setters 
 

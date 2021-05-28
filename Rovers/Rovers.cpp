@@ -6,8 +6,14 @@ Rover::Rover(RoverType T, int sp, int ChD, int MM) // Constructor (Initializing 
 	speed = sp;
 	CheckUp_Duration = ChD;
 	MaxMissions = MM;
+	m_mission = nullptr;
 }
 
+
+void Rover::Assign(Mission* M) 
+{
+	m_mission = M;
+}
 
 
 

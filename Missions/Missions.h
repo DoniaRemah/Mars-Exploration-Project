@@ -21,8 +21,6 @@ public:
 
 	Mission(MissionType T, int id, int FD, int MD, int sig, int TL); // Constructor (Initializing Input Data)
 
-	void Assign(Rover* R);
-
 	void CalculateED(); // Calculates Execution Days
 	void CalculateCD(int d); // Calculates Completion Day
 
