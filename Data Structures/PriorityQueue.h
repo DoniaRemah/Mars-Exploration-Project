@@ -65,7 +65,7 @@ public:
 				}
 
 				prev = ptr;
-				ptr = ptr->getNext();
+				ptr = ptr->GetNext();
 			}
 
 		}

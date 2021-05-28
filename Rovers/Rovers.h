@@ -15,7 +15,7 @@ private:
 	int speed;
 	int Num_Of_ExecMissions;
 	int MaxMissions; // Maximum Number of Missions Before Checkup
-
+	int DaysChOver;
 	bool InCheckUp; 
 	bool IsAvailable;
 
@@ -27,6 +27,7 @@ public:
 
 	void ResetMissions(); // Resets number of executed missions to 0
 	void IncrementMissions(); // Increments number of Executed missions after one is completed
+	void DecDaysOver();
 	void Assign(Mission* R); //Assigning a rover to a mission
 
 	// Setters 

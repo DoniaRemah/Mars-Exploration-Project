@@ -3,6 +3,7 @@
 #include"../UI/UI.h"
 MarsStation::MarsStation()
 {
+	Day = 1;
 }
 void MarsStation::Load()
 {
@@ -123,4 +124,106 @@ bool MarsStation::End_Sim()
 	{
 		return false;
 	}
+}
+
+void MarsStation::Refresh()
+{
+	Day++; // Incrementing Day for MarsStation class.
+	// Re-arranging Queues. 
+	//(TODO: Have to add functions where it checks on when to move pointers)
+	InCrementWaiting();
+	DeCrementCheckUp();
+	DeCrementInExecution();
+
+
+}
+
+void MarsStation::InCrementWaiting()
+{
+	Mission* m_mission;
+
+	PriorityQueue<Mission*> temp;
+
+	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
+	{
+		Waiting_EM.dequeueFront(m_mission);
+		m_mission->IncrementWD();
+		temp.enqueue(m_mission,m_mission->GetPriority());
+	}
+
+	while (!temp.IsEmpty()) // returning missions to original queue
+	{
+		temp.dequeueFront(m_mission);
+		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
+	}
+
+	Queue <Mission*> p_temp;
+
+	while (!Waiting_PM.IsEmpty()) // Incrementing waiting Days of Polar Queue
+	{
+		Waiting_PM.dequeue(m_mission);
+		m_mission->IncrementWD();
+		p_temp.enqueue(m_mission);
+	}
+
+	while (!p_temp.IsEmpty()) // returning missions to original queue
+	{
+		p_temp.dequeue(m_mission);
+		Waiting_PM.enqueue(m_mission);
+	}
+
+}
+
+void MarsStation::DeCrementInExecution()
+{
+	PriorityQueue<Rover*> temp;
+
+	Rover* m_rover;
+
+	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
+	{
+		InExec_rov.dequeueFront(m_rover);
+		m_rover->GetMission()->DecrementEX();
+		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
+	}
+
+	while (!temp.IsEmpty()) // returning rovers to original queue
+	{
+		temp.dequeueFront(m_rover);
+		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
+	}
+}
+
+void MarsStation::DeCrementCheckUp()
+{
+	Queue<Rover*> tPR; 
+	Queue<Rover*> tER;
+
+	Rover* m_rover;
+	while (!InCheckUp_ER.IsEmpty()) // Dec days left for rover on checkup
+	{
+		InCheckUp_ER.dequeue(m_rover);
+		m_rover->DecDaysOver();
+		tER.enqueue(m_rover);
+	}
+
+	while (!tER.IsEmpty()) // returning rovers to original queue
+	{
+		tER.dequeue(m_rover);
+		InCheckUp_ER.enqueue(m_rover);
+	}
+
+	while (!InCheckUp_PR.IsEmpty()) // Dec days left for rover on checkup
+	{
+		InCheckUp_PR.dequeue(m_rover);
+		m_rover->DecDaysOver();
+		tPR.enqueue(m_rover);
+	}
+
+	while (!tPR.IsEmpty()) // returning rover to original queue
+	{
+		tPR.dequeue(m_rover);
+		InCheckUp_PR.enqueue(m_rover);
+	}
+
 }

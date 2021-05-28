@@ -62,7 +62,10 @@ int Rover::GetNumOfMissions()
 }
 
 
-
+void Rover::DecDaysOver()
+{
+	DaysChOver--;
+}
 
 Rover::~Rover() // Destructor
 {

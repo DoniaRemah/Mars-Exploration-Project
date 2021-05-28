@@ -62,6 +62,12 @@ public:
 	void Refresh(); // Increments Day, does necessary movements across lists.
 	bool Assign(); // checks if missions can be assigned. returns true if yes. false if not.
 
+	///////////////////////////////////////////////
+	void InCrementWaiting();
+	void DeCrementInExecution();
+	void DeCrementCheckUp();
+
+
 	// UI Functions
 
 	void ReadMode(); // Calls on UI to read mode from user.
