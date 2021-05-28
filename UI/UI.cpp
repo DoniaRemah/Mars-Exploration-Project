@@ -3,6 +3,11 @@
 #include<iostream>
 using namespace std;
 
+
+UI::UI() 
+{
+
+}
 void UI::ReadMode() 
 {
 	int m;

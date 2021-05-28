@@ -16,4 +16,5 @@ public:
 
 	void PrintOutput(); // prints to console output according to the chosen mode.
 
+
 };
