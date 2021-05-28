@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Defs.h"
-
+#include"..\Rovers\Rovers.h"
 class Mission
 {
 private:

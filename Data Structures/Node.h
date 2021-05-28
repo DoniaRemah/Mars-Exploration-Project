@@ -5,7 +5,7 @@ class Node
 {
 private:
 	T data;
-	Node* <T> Next; // Initially set to Null
+	Node<T>* Next;
 
 public:
 
@@ -13,16 +13,37 @@ public:
 
 	// Constructors 
 
-	Node(); // defualt constructor (omittable)
-	Node(T d); // Non-defualt Constructor
+	Node() // defualt constructor (omittable)
+	{
+		Next = nullptr;
+	}
+
+	Node(T d) // Non-defualt Constructor
+	{
+		data = d;
+		Next = nullptr;
+	}
 
 	//Setters
-	void SetNext(Node<T>* n);
-	void SetData(T d);
+	void SetNext(Node<T>* n)
+	{
+		Next = n;
+	}
+	void SetData(T d)
+	{
+		data = d;
+	}
 
 	//Getters
-	Node<T>* GetNext();
-	T GetData();
+	Node<T>* GetNext()
+	{
+		return Next;
+	}
+	T GetData()
+	{
+		return data;
+	}
 
 	~Node(); // Destructor
 };
+
