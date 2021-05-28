@@ -51,7 +51,7 @@ void Mission::CalculatePriority()  //Higher number -> Higher priority
 	int Location_W = -1; //The closer to the base station, the higher priority
 	int MD_W = -1; //The less the duration, the higher priority (logic: in order to finish more quickly)
 	int Significance_W = 5; //The higher the significance, the higher the priority
-	int Total_W = 4 + 1 + 1 + 5; //Taking the modulus of the weights to divide by them
+	float Total_W = 4 + 1 + 1 + 5; //Taking the modulus of the weights to divide by them
 
 	// Second: Calculating the priority using the following priority equation (Like GPA):
      priority = ((FormulationDay * FD_W) + (TLocation * Location_W) + (MissionDuration * MD_W) + (Significance * Significance_W)) / (Total_W);

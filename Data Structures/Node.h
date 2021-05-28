@@ -6,7 +6,7 @@ class Node
 private:
 	T data;
 	Node<T>* Next;
-	int Priority;
+	float Priority;
 public:
 
 	// All member Functions are to be defined here
@@ -36,7 +36,7 @@ public:
 		data = d;
 	}
 
-	void SetPriority(const int & p)
+	void SetPriority( float  p)
 	{
 		Priority = p;
 	}
@@ -52,7 +52,7 @@ public:
 		return data;
 	}
 
-	int GetPriority()
+	float GetPriority()
 	{
 		return Priority;
 	}

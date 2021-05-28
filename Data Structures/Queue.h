@@ -5,8 +5,8 @@ template<typename T>
 class Queue
 {
 private:
-	Node<T*>* front;
-	Node<T*>* back;
+	Node<T>* front;
+	Node<T>* back;
 
 public:
 
@@ -20,9 +20,9 @@ public:
 		back = nullptr;
 	}
 
-	Queue(const T* m_node) // Non-default constructor
+	Queue(T m_node) // Non-default constructor
 	{
-		Node<T*>* newNode = new Node<T*>*(m_node);
+		Node<T>* newNode = new Node<T>*(m_node);
 		front = newNode;
 		back = nullptr;
 	}
@@ -32,9 +32,9 @@ public:
 		return (front == nullptr);
 	}
 
-	void enqueue(const T* m_data) // adds node to the end of the list.
+	void enqueue(T m_data) // adds node to the end of the list.
 	{
-		Node<T*>* newNode = new Node<T*>*(m_data);
+		Node<T>* newNode = new Node<T>(m_data);
 
 		if (IsEmpty()) // If this is the first node
 		{
@@ -55,11 +55,11 @@ public:
 		}
 	}
 
-	bool dequeue(T* & return_data) // returns first node in the list.
+	bool dequeue(T & return_data) // returns first node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
-		Node<T*>* Delete_Node = front; // temp ptr for the node to delete
+		Node<T>* Delete_Node = front; // temp ptr for the node to delete
 
 		return_data = front->GetData();
 		front = front->GetNext(); 
@@ -72,7 +72,7 @@ public:
 	}
 
 
-	bool peek(T* & return_data) // returns a copy of the first node.
+	bool peek(T & return_data) // returns a copy of the first node.
 	{
 		if (IsEmpty()) return false;
 		
@@ -84,7 +84,7 @@ public:
 
 	~Queue()
 	{
-		T** del = nullptr;
+		T del;
 		while (dequeue(del));
 	}
 };

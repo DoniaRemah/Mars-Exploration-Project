@@ -5,8 +5,8 @@ template <typename T>
 class PriorityQueue
 {
 private:
-	Node<T*>* front;
-	Node<T*>* back;
+	Node<T>* front;
+	Node<T>* back;
 public:
 
 	// All member Functions are to be defined here
@@ -19,9 +19,9 @@ public:
 		back = nullptr;
 	}
 
-	PriorityQueue(const T*  m_data) // non-default constructor
+	PriorityQueue(T  m_data) // non-default constructor
 	{
-		Node<T*>* newNode = new Node<T*>(m_data); // creating Node
+		Node<T>* newNode = new Node<T>(m_data); // creating Node
 		front = newNode; 
 		back = nullptr;
 	}
@@ -31,19 +31,19 @@ public:
 		return (front == nullptr);
 	}
 
-	void enqueue(const T* & m_data ,const int prio) // adds node to the end of the list.
+	void enqueue(T m_data ,float prio) // adds node to the end of the list.
 	{
 
-		Node<T*>* newNode = new Node<T*>(m_data); // creating Node
+		Node<T>* newNode = new Node<T>(m_data); // creating Node
 
 		if (IsEmpty())	//If this is the first Node.
 			front = newNode;
 		else
 		{
-			Node<T*>* ptr = front;
-			Node<T*>* prev = front;
+			Node<T>* ptr = front;
+			Node<T>* prev = front;
 
-			int Prio_Ptr = 0;
+			float Prio_Ptr = 0;
 
 			while (ptr)
 			{
@@ -70,7 +70,7 @@ public:
 
 		}
 
-		Node<T*>* ptr = front;
+		Node<T>* ptr = front;
 
 		while (ptr) // getting value of back ptr
 		{
@@ -82,11 +82,11 @@ public:
 			ptr = ptr->GetNext();
 		}
 	}
-	bool dequeueFront(T** return_data) // returns first node in the list.
+	bool dequeueFront(T & return_data) // returns first node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
-		Node<T*>* Delete_Node = front; // temp ptr for the node to delete
+		Node<T>* Delete_Node = front; // temp ptr for the node to delete
 
 		return_data = front->GetData();
 
@@ -99,11 +99,11 @@ public:
 		return true;
 	}
 
-	bool dequeueBack(Node<T>* return_data) // returns Last node in the list.
+	bool dequeueBack(T & return_data) // returns Last node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
-		Node<T*>* Delete_Node = back; // temp ptr for the node to delete
+		Node<T>* Delete_Node = back; // temp ptr for the node to delete
 
 		return_data = back->GetData();
 
@@ -113,8 +113,8 @@ public:
 		}
 		else
 		{
-			Node<T*>* Prev_Back; // pointer to previous node to back
-			Node<T*>* ptr = front;
+			Node<T>* Prev_Back; // pointer to previous node to back
+			Node<T>* ptr = front;
 
 			while (ptr)
 			{
@@ -134,14 +134,14 @@ public:
 		return true;
 	}
 
-	bool peekFront(T* & m_node) // returns a copy of the first node.
+	bool peekFront(T & m_node) // returns a copy of the first node.
 	{
 		if (IsEmpty) return false;
 		m_node = front;
 		return true;
 	}
 
-	bool peekBack(T*& m_node)
+	bool peekBack(T& m_node)
 	{
 		if (IsEmpty) return false;
 		m_node = back;
@@ -150,7 +150,7 @@ public:
 
 	~PriorityQueue() // destructor
 	{
-		T** del;;
+		T del;;
 		while (dequeueFront(del));
 	}
 };

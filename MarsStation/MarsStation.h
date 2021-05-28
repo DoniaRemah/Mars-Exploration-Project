@@ -4,7 +4,8 @@
 #include"..\Data Structures\Queue.h"
 #include "..\Events\Events.h"
 #include "..\Missions\Missions.h"
-#include "..\Rovers\Rovers.h"
+
+ 
 
 class MarsStation
 {
@@ -25,11 +26,11 @@ private:
 
 	// Lists 
 
-	Queue<Event> Events; // List of all Events in Simulation (From Input File)
+	Queue<Event*> Events; // List of all Events in Simulation (From Input File)
 
 	// Waiting Missions Lists
-	PriorityQueue<Mission*> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
-	Queue<Mission*> Waiting_PM; // List of Waiting polar missions (First in First Out)
+	PriorityQueue <Mission*> Waiting_EM; // List of Waiting Emergency Missions (Sorted according to priority equation)
+	Queue <Mission*> Waiting_PM; // List of Waiting polar missions (First in First Out)
 
 	// Available Rovers Lists
 	Queue<Rover*> Av_ER; // List of Available Emergency Rovers

@@ -1,7 +1,10 @@
 #pragma once
-#include "..\MarsStation\MarsStation.h"
+
 #include "..\Defs.h"
 #include "..\Missions\Missions.h"
+
+class Mission;
+
 class Rover
 {
 private:

@@ -14,7 +14,16 @@ protected:
 
 public:
 
-	Event(MissionType ,int d, int id, int targetloc , int duration , int significance); // Constructor
-	virtual void Execute();
-	~Event(); // Destructor
+	Event(MissionType, int d, int id, int targetloc, int duration, int significance) // Constructor
+	{
+
+	}
+	virtual void Execute()
+	{
+
+	}
+	~Event() // Destructor
+	{
+
+	}
 };

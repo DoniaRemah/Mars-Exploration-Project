@@ -1,6 +1,9 @@
 #pragma once
 #include "..\Defs.h"
 #include"..\Rovers\Rovers.h"
+
+class Rover;
+
 class Mission
 {
 private:
@@ -12,7 +15,7 @@ private:
 	int WaitingDays;
 	int ExecutionDays;
 	int CompletionDays;
-	int MissionDuration;  // 
+	int MissionDuration;   
 	int Significance;
 	int TLocation;   // Distance from location of the mission from the base station
 	float priority; // For emergency missions only. Initially set to 0.
