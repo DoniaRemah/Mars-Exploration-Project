@@ -1,6 +1,6 @@
 #include "MarsStation.h"
 #include<fstream>
-
+#include"../UI/UI.h"
 void MarsStation::Load()
 {
 	//getting file name from the user
@@ -97,5 +97,23 @@ void MarsStation::AddtoRoverQ(ifstream & file)
 	for (int i = 0; i < num_ER; i++) {
 		Rover* rover = new Rover(Emergency_Rover, ER_speed, ER_checkup, MaxMission);
 		Av_ER.enqueue(rover);
+	}
+}
+
+
+void MarsStation::ReadMode()
+{
+	UI_ptr->ReadMode();
+}
+
+bool MarsStation::End_Sim() 
+{
+	if (Events.IsEmpty() && Waiting_EM.IsEmpty() && Waiting_PM.IsEmpty()) 
+	{
+		return true;
+	}
+	else 
+	{
+		return false;
 	}
 }

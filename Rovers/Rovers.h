@@ -36,6 +36,8 @@ public:
 	bool GetAvailable(); // Gets available status
 	bool GetInCheckup(); // Gets Incheckup Status
 	int GetNumOfMissions(); // Gets number of executed Missions by this rover
+	int GetSpeed(); //Returns the rover speed
+	Mission* GetMission(); //Returns the pointer to the mission the rover is assigned to
 
 	~Rover(); // Destructor
 };

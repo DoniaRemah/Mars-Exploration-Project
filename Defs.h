@@ -15,12 +15,7 @@ enum MissionType
 	Polar
 };
 
-enum Mode
-{
-	Interavtive,
-	StepbyStep,
-	Silent
-};
+
 
 
 #endif
