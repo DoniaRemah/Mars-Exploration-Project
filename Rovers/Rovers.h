@@ -18,6 +18,7 @@ private:
 	int DaysChOver;
 	bool InCheckUp; 
 	bool IsAvailable;
+	int ID;
 
 	Mission* m_mission; // Pointer to mission the rover is assigned to. Initially set to Null
 
@@ -34,6 +35,7 @@ public:
 
 	void SetInCheckUp(bool status); // Sets Incheckup Status
 	void SetIsAvailable(bool status); // sets available status
+	void SetID(int I_D); //sets ID for this rover
 
 	// Getters
 
@@ -42,6 +44,7 @@ public:
 	int GetNumOfMissions(); // Gets number of executed Missions by this rover
 	int GetSpeed(); //Returns the rover speed
 	Mission* GetMission(); //Returns the pointer to the mission the rover is assigned to
+	int GetID();//Returns the ID for this rover
 
 	~Rover(); // Destructor
 };
