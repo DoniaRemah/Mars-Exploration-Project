@@ -82,7 +82,7 @@ public:
 			ptr = ptr->GetNext();
 		}
 	}
-	bool dequeueFront(T & return_data) // returns first node in the list.
+	bool dequeueFront(T & return_data,int & prio_) // returns first node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
@@ -91,6 +91,7 @@ public:
 		return_data = front->GetData();
 
 		front = front->GetNext();
+		prio_ = front->GetPriority();
 
 		if (Delete_Node == back) back = nullptr; // if node to delete is last one (special case)
 
@@ -99,13 +100,14 @@ public:
 		return true;
 	}
 
-	bool dequeueBack(T & return_data) // returns Last node in the list.
+	bool dequeueBack(T & return_data,int & prio_) // returns Last node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
 		Node<T>* Delete_Node = back; // temp ptr for the node to delete
 
 		return_data = back->GetData();
+		prio_ = back->GetPriority();
 
 		if (back == front || back == nullptr) // If this is the last node.
 		{

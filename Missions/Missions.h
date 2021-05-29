@@ -44,6 +44,7 @@ public:
 	int GetED(); // Gets Execution Days
 	int GetCD(); // Gets Completion Day
 	float GetPriority(); // Gets Priority of mission
+	MissionType GetTypeOfMission();
 	~Mission(); // Destructor
 
 };

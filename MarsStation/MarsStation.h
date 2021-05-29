@@ -4,6 +4,7 @@
 #include"..\Data Structures\Queue.h"
 #include "..\Events\Events.h"
 #include "..\Missions\Missions.h"
+#include"..\Data Structures\Node.h"
 
  
 
