@@ -4,6 +4,8 @@
 #include"..\Data Structures\Queue.h"
 #include "..\Events\Events.h"
 #include "..\Missions\Missions.h"
+#include<string>
+#include<fstream>
 
  
 
@@ -20,8 +22,10 @@ private:
 	int num_PR; // total number of Polar Rovers
 	int num_ER; // total number of Emergency Rovers
 
-	float Avg_Wait; // average waiting time
-	float Avg_InExec;  // average In Execution time
+	float Total_Wait; // total waiting time for all missions
+	float Total_InExec;  // total In Execution time for all missions
+
+	ofstream* DestinationFile;	//pointer to the file where the output is saved
 	
 
 	// Lists 
@@ -43,6 +47,7 @@ private:
 
 	// Completed Missions
 	Queue<Mission*> Completed_M; // List of Completed Missions 
+	Queue<int>Completed_ID;		//List of Completed Missions' IDs
 
 public:
 
@@ -50,7 +55,8 @@ public:
 
 	////////////////////////////////////////////////
 	void Load();
-	void Save();
+	void Save(); 
+	void Save_CompleteM(); //dequeues and saves the completed missions to o/p file
 	///////////////////////////////////////////////
 	void AddtoRoverQ(ifstream&); //Adds rovers to a waiting rovers' Queue
 	void AddtoEventQ(ifstream &,int); //Add Events to events' Q

@@ -13,7 +13,8 @@ void UI::OutputStr(string str)
 string UI::getInput()
 {
 	string str;
-	cin >> str;
+	//using getline to consider any spaces in line name
+	getline(cin, str);
 	return str;
 }
 

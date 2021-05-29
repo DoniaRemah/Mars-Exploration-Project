@@ -8,7 +8,7 @@ MarsStation::MarsStation()
 void MarsStation::Load()
 {
 	//getting file name from the user
-	UI_ptr->OutputStr("Enter file name (without the .txt extension) ");
+	UI_ptr->OutputStr("Enter the input file name (without the .txt extension) ");
 	string filename = UI_ptr->getInput();
 	//opening the input file
 	ifstream file;
@@ -16,7 +16,8 @@ void MarsStation::Load()
 	//checking if the file is open
 	while (!file.is_open()) {
 		UI_ptr->OutputStr("Error: file not found.");
-		UI_ptr->OutputStr("Enter file name (without the .txt extenstion) ");
+		UI_ptr->OutputStr("Enter the input file name (without the .txt extenstion) ");
+		filename = UI_ptr->getInput();
 		file.open(filename + ".txt", ios::in);
 	}
 	//adding the rovers to their respective queues
@@ -29,15 +30,44 @@ void MarsStation::Load()
 
 void MarsStation::Save()
 {
-	/*if (Day == 1) {
-
+	if (Day == 1) {
+		//getting the file name from the user
+		UI_ptr->OutputStr("Enter the output file name (without the .txt extension) ");
+		string FileName = UI_ptr->getInput();
+		//creating the file
+		ofstream* savefile = new ofstream;
+		savefile->open(FileName + ".txt", ios::out);
+		//saving a pointer to the file in the data member DestinationFile
+		DestinationFile = savefile;
+		//printing the header
+		*savefile << "CD" << "\t" << "ID" << "\t" << "FD" << "\t" << "WD" << "\t" << "ED" << endl;
 	}
-	while (!Completed_M.IsEmpty()) {
-		Mission* mission;
-		Completed_M.dequeue(mission);
-		
+	//saving the completed missions information
+	Save_CompleteM();
+	if (End_Sim()) {
+		//output the statistics
+		*DestinationFile << "Missions: " << num_EM + num_PM << "[P: " << num_PM << " E: " << num_EM << "]" << endl;
+		*DestinationFile << "Rovers: " << num_ER + num_PR << "[P: " << num_PR << " E: " << num_ER << "]" << endl;
+		*DestinationFile << "Average Wait= " << Total_Wait / (num_EM + num_PM) << "\t" << "Average Exec= " << Total_InExec / (num_EM + num_PM) << endl;
+		//closing the file
+		DestinationFile->close();
+		delete DestinationFile;
+	}
 
-	}*/
+}
+
+void MarsStation::Save_CompleteM()
+{
+	//Dequeue- Save - Delete
+	while (!Completed_M.IsEmpty()) {
+		Mission* CompletedM;
+		Completed_M.dequeue(CompletedM);
+		*DestinationFile << CompletedM->GetCD() << "\t" << CompletedM->GetID() << "\t" << CompletedM->GetFD() << "\t" << CompletedM->GetWD() << "\t" << CompletedM->GetED() << endl;
+		Completed_ID.enqueue(CompletedM->GetID());
+		Total_Wait += CompletedM->GetWD(); //incrementing statistics
+		Total_InExec += CompletedM->GetED();
+		delete CompletedM;
+	}
 }
 
 void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
@@ -59,11 +89,13 @@ void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
 		
 		//creating event
 		if (MissionTyp == 'P') {
-			Event* event = new Event(Polar, day, id, targetloc, duration, sig);
+			Event* newevent = new Event(Polar, day, id, targetloc, duration, sig);
+			Events.enqueue(newevent);
 			num_PM++;
 		}
 		else {
-			Event* event = new Event(Emergency, day, id, targetloc, duration, sig);
+			Event* newevent = new Event(Emergency, day, id, targetloc, duration, sig);
+			Events.enqueue(newevent);
 			num_EM++;
 		}
 	}
@@ -71,8 +103,33 @@ void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
 
 bool MarsStation::Assign()
 {
-
-	return false;
+	bool CanAssign = false;
+	Mission* availableM;
+	Rover* availableR;
+	//assigning Emergency missions first
+	while (!Waiting_EM.IsEmpty() && (!Av_ER.IsEmpty() || !Av_PR.IsEmpty())) {
+		Waiting_EM.dequeueFront(availableM);
+		if (!Av_ER.IsEmpty()) {
+			Av_ER.dequeue(availableR);
+		}
+		else {
+			Av_PR.dequeue(availableR);
+		}
+		availableR->Assign(availableM);
+		availableM->Assign(availableR);
+		InExec_rov.enqueue(availableR, availableM->GetCD());
+		CanAssign = true;
+	}
+	//assigning Polar missions
+	while (!Waiting_PM.IsEmpty() && !Av_PR.IsEmpty()) {
+		Waiting_PM.dequeue(availableM);
+		Av_PR.dequeue(availableR);
+		availableR->Assign(availableM);
+		availableM->Assign(availableR);
+		InExec_rov.enqueue(availableR, availableM->GetCD());
+		CanAssign = true;
+	}
+	return CanAssign;
 }
 
 void MarsStation::AddtoRoverQ(ifstream & file)
@@ -95,12 +152,12 @@ void MarsStation::AddtoRoverQ(ifstream & file)
 	int ER_checkup = content;
 	//creating rovers and adding them to the queue
 	for (int i = 0; i < num_PR; i++) {
-		Rover* rover = new Rover(Polar_Rover, PR_speed, PR_checkup, MaxMission);
-		Av_PR.enqueue(rover);
+		Rover* newrover = new Rover(Polar_Rover, PR_speed, PR_checkup, MaxMission);
+		Av_PR.enqueue(newrover);
 	}
 	for (int i = 0; i < num_ER; i++) {
-		Rover* rover = new Rover(Emergency_Rover, ER_speed, ER_checkup, MaxMission);
-		Av_ER.enqueue(rover);
+		Rover* newrover = new Rover(Emergency_Rover, ER_speed, ER_checkup, MaxMission);
+		Av_ER.enqueue(newrover);
 	}
 }
 
