@@ -74,6 +74,10 @@ float Mission::GetPriority()
 {
 	return priority;
 }
+MissionType Mission::GetTypeOfMission()
+{
+	return Type;
+}
 
 int Mission::GetCD()
 {

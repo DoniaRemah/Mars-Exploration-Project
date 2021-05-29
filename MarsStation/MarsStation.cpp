@@ -160,6 +160,159 @@ void MarsStation::AddtoRoverQ(ifstream & file)
 		Av_ER.enqueue(newrover);
 	}
 }
+void MarsStation::PrintOutput()
+{
+	PriorityQueue<Mission*> copydata;
+	Mission*t;
+	int x = 0;
+	int counter_waiting_EM = 0;
+	while (Waiting_EM.dequeueFront(t,x))
+	{
+		copydata.enqueue(t,x);
+		counter_waiting_EM++;
+	}
+	int* arr_EM = new int[counter_waiting_EM++];
+	int i = 0;
+	while (copydata.dequeueFront(t,x))
+	{
+		Waiting_EM.enqueue(t,x);
+		arr_EM[i] = (t->GetID());
+	}
+	int counter_waiting_PM = 0;
+	Queue<Mission*> copydata_;
+	while (Waiting_PM.dequeue(t))
+	{
+		copydata_.enqueue(t);
+		counter_waiting_PM++;
+	}
+	int TotalNumberOfWaitingMission = counter_waiting_PM + counter_waiting_EM;
+	int* arr_PM = new int[counter_waiting_PM++];
+	while (copydata_.dequeue(t))
+	{
+		Waiting_PM.enqueue(t);
+		arr_PM[i] = (t->GetID());
+	}
+	Rover* M;
+	PriorityQueue<Rover*> copydata2;
+	int counter_EMInEXEC = 0;
+	int counter_PMInEXEC = 0;
+	while (InExec_rov.dequeueFront(M,x))
+	{
+		if (M->GetMission()->GetTypeOfMission() == Emergency)
+		{
+			counter_EMInEXEC++;
+		}
+		else
+		{
+			counter_PMInEXEC++;
+
+		}
+		copydata2.enqueue(M,x);
+	}
+	int* arr_InExec_EM_rover = new int[counter_EMInEXEC * 2];
+	int* arr_InExec_PM_rover = new int[counter_PMInEXEC * 2];
+	int j = 0;
+	int f = 0;
+	while (copydata2.dequeueFront(M, x))
+	{
+		if (M->GetMission()->GetTypeOfMission() == Emergency)
+		{
+			arr_InExec_EM_rover[j] = M->GetMission()->GetID();
+			j++;
+			arr_InExec_EM_rover[j] = M->GetID();
+		}
+		else
+		{
+			arr_InExec_PM_rover[f] = M->GetMission()->GetID();
+			f++;
+			arr_InExec_PM_rover[f] = M->GetID();
+		}
+	}
+	j = 0;
+	Queue<Rover*>k_;
+	int counter_Av_ER=0;
+	while (Av_ER.dequeue(M))
+	{
+		counter_Av_ER++;
+		k_.enqueue(M);
+	}
+	int* arr_Av_ER = new int[counter_Av_ER];
+	while (k_.dequeue(M))
+	{
+		arr_Av_ER[j] = M->GetID();
+		Av_ER.enqueue(M);
+	}
+	j = 0;
+	int counter_Av_PR = 0;
+	while (Av_PR.dequeue(M))
+	{
+		counter_Av_PR++;
+		k_.enqueue(M);
+	}
+	int* arr_Av_PR = new int[counter_Av_PR];
+	while (k_.dequeue(M))
+	{
+		arr_Av_PR[j] = M->GetID();
+		Av_PR.enqueue(M);
+	}
+	j = 0;
+	int counter_InCheckUp_PR = 0;
+	while (InCheckUp_PR.dequeue(M))
+	{
+		counter_InCheckUp_PR++;
+		k_.enqueue(M);
+	}
+	int* arr_InCheckUp_PR = new int[counter_InCheckUp_PR];
+	while (k_.dequeue(M))
+	{
+		arr_InCheckUp_PR[j] = M->GetID();
+		InCheckUp_PR.enqueue(M);
+	}
+	int counter_InCheckUp_ER = 0;
+	while (InCheckUp_PR.dequeue(M))
+	{
+		counter_InCheckUp_ER++;
+		k_.enqueue(M);
+	}
+	int* arr_InCheckUp_ER = new int[counter_InCheckUp_ER];
+	while (k_.dequeue(M))
+	{
+		arr_InCheckUp_ER[j] = M->GetID();
+		InCheckUp_ER.enqueue(M);
+	}
+	int counter_Completed_EM = 0;
+	int counter_Completed_PM = 0;
+	while (Completed_M.dequeue(t))
+	{
+		if (t->GetTypeOfMission() == Emergency)
+		{
+			counter_Completed_EM++;
+		}
+		else 
+		{
+			counter_Completed_PM++;
+		}
+		copydata_.enqueue(t);
+	}
+	int* arr_Completed_EM = new int[counter_Completed_EM];
+	int* arr_Completed_PM = new int[counter_Completed_PM];
+	int E = 0;
+	int P = 0;
+	while (copydata_.dequeue(t))
+	{
+		if (t->GetTypeOfMission() == Emergency)
+		{
+			arr_Completed_EM[E] = t->GetID();
+		}
+		else
+		{
+			arr_Completed_PM[P] = t->GetID();
+		}
+		Completed_M.enqueue(t);
+	}
+
+	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, counter_Completed_EM, arr_Completed_EM, counter_Completed_PM, arr_Completed_PM);
+}
 
 
 void MarsStation::ReadMode()
@@ -200,17 +353,16 @@ void MarsStation::InCrementWaiting()
 	Mission* m_mission;
 
 	PriorityQueue<Mission*> temp;
-
+	int x = 0;
 	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
 	{
-		Waiting_EM.dequeueFront(m_mission);
+		Waiting_EM.dequeueFront(m_mission,x);
 		m_mission->IncrementWD();
 		temp.enqueue(m_mission,m_mission->GetPriority());
 	}
-
 	while (!temp.IsEmpty()) // returning missions to original queue
 	{
-		temp.dequeueFront(m_mission);
+		temp.dequeueFront(m_mission,x);
 		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
 	}
 
@@ -234,19 +386,19 @@ void MarsStation::InCrementWaiting()
 void MarsStation::DeCrementInExecution()
 {
 	PriorityQueue<Rover*> temp;
-
+	int x = 0;
 	Rover* m_rover;
 
 	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
 	{
-		InExec_rov.dequeueFront(m_rover);
+		InExec_rov.dequeueFront(m_rover,x);
 		m_rover->GetMission()->DecrementEX();
 		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
 	}
 
 	while (!temp.IsEmpty()) // returning rovers to original queue
 	{
-		temp.dequeueFront(m_rover);
+		temp.dequeueFront(m_rover,x);
 		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
 	}
 }
