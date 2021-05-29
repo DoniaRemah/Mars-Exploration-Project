@@ -60,8 +60,14 @@ int Rover::GetNumOfMissions()
 {
 	return Num_Of_ExecMissions;
 }
-
-
+void Rover:: SetID(int I_D)
+{
+	ID=I_D;
+}
+int Rover::GetID()
+{
+	return ID;
+}
 void Rover::DecDaysOver()
 {
 	DaysChOver--;
