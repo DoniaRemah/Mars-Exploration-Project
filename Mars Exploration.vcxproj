@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data Structures\Node.h" />
+    <ClInclude Include="Data Structures\PQNode.h" />
     <ClInclude Include="Data Structures\PriorityQueue.h" />
     <ClInclude Include="Data Structures\Queue.h" />
     <ClInclude Include="Defs.h" />

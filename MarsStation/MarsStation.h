@@ -4,8 +4,11 @@
 #include"..\Data Structures\Queue.h"
 #include "..\Events\Events.h"
 #include "..\Missions\Missions.h"
+#include<string>
+#include<fstream>
+#include"..\Data Structures\Node.h"
 
- 
+class Event;
 
 class MarsStation
 {
@@ -20,8 +23,10 @@ private:
 	int num_PR; // total number of Polar Rovers
 	int num_ER; // total number of Emergency Rovers
 
-	float Avg_Wait; // average waiting time
-	float Avg_InExec;  // average In Execution time
+	float Total_Wait; // total waiting time for all missions
+	float Total_InExec;  // total In Execution time for all missions
+
+	ofstream* DestinationFile;	//pointer to the file where the output is saved
 	
 
 	// Lists 
@@ -43,6 +48,7 @@ private:
 
 	// Completed Missions
 	Queue<Mission*> Completed_M; // List of Completed Missions 
+	Queue<int>Completed_ID;		//List of Completed Missions' IDs
 
 public:
 
@@ -50,11 +56,12 @@ public:
 
 	////////////////////////////////////////////////
 	void Load();
-	void Save();
+	void Save(); 
+	void Save_CompleteM(); //dequeues and saves the completed missions to o/p file
 	///////////////////////////////////////////////
 	void AddtoRoverQ(ifstream&); //Adds rovers to a waiting rovers' Queue
 	void AddtoEventQ(ifstream &,int); //Add Events to events' Q
-
+	void CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL); // A function that creates a mission node and adds it to the waiting Queue
 	//Simulation Functions
 
 	bool ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
@@ -62,11 +69,18 @@ public:
 	void Refresh(); // Increments Day, does necessary movements across lists.
 	bool Assign(); // checks if missions can be assigned. returns true if yes. false if not.
 
+	///////////////////////////////////////////////
+	void InCrementWaiting();
+	void DeCrementInExecution();
+	void DeCrementCheckUp();
+	void MoveCompMissions();
+	void MoveCheckUpRovers();
+
 	// UI Functions
 
 	void ReadMode(); // Calls on UI to read mode from user.
 	void PrintOutput(); //Calls on Printoutput from UI
-
+	void PrintStatistics(); // Calls on Print Statistics from UI
 
 	// Destructor
 	~MarsStation();

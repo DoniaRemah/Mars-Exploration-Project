@@ -11,7 +11,6 @@ enum RoverType
 enum MissionType
 {
 	Emergency,
-	Mountain,
 	Polar
 };
 
