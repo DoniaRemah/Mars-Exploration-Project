@@ -6,6 +6,7 @@ class Node
 private:
 	T data;
 	Node<T>* Next;
+	float Priority;
 public:
 
 	// All member Functions are to be defined here
@@ -15,6 +16,7 @@ public:
 	Node() // defualt constructor (omittable)
 	{
 		Next = nullptr;
+		Priority = 0;
 	}
 
 	Node(T d) // Non-defualt Constructor
@@ -34,6 +36,10 @@ public:
 		data = d;
 	}
 
+	void SetPriority( float  p)
+	{
+		Priority = p;
+	}
 
 	//Getters
 	Node<T>* GetNext()
@@ -45,6 +51,13 @@ public:
 	{
 		return data;
 	}
+
+	float GetPriority()
+	{
+		return Priority;
+	}
+
+
 
 	~Node() // Destructor
 	{
