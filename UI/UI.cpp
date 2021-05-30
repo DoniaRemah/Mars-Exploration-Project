@@ -51,7 +51,7 @@ void UI::ReadMode()
 
 void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiting_EM, int* arr_EM, int counter_waiting_PM, int* arr_PM, int counter_EMInEXEC, int* arr_InExec_EM_rover, int counter_PMInEXEC, int* arr_InExec_PM_rover, int counter_Av_ER, int* arr_Av_ER, int counter_Av_PR, int* arr_Av_PR, int counter_InCheckUp_ER, int* arr_InCheckUp_ER, int counter_InCheckUp_PR, int* arr_InCheckUp_PR, int counter_Completed_EM,int * arr_Completed_EM,int  counter_Completed_PM, int *arr_Completed_PM)
 {
-	if (mode ==1)
+	if (mode ==1 || mode ==2)
 	{
 		cout << "current day:" << day << endl;
 		cout << TotalNumberOfWaitingMission << " " << "Waiting Missions: [" ;
@@ -155,7 +155,17 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		}
 		cout << ")";
 
+		if (mode == 2)
+		{
+			cin.get();
+			cout << endl;
+		}
 
 
 	}
+}
+
+void UI::PrintStatistics()
+{
+
 }
