@@ -6,7 +6,7 @@
 #include "..\Missions\Missions.h"
 #include"..\Data Structures\Node.h"
 
- 
+class Event;
 
 class MarsStation
 {
@@ -55,7 +55,7 @@ public:
 	///////////////////////////////////////////////
 	void AddtoRoverQ(ifstream&); //Adds rovers to a waiting rovers' Queue
 	void AddtoEventQ(ifstream &,int); //Add Events to events' Q
-
+	void CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL); // A function that creates a mission node and adds it to the waiting Queue
 	//Simulation Functions
 
 	bool ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
@@ -67,7 +67,8 @@ public:
 	void InCrementWaiting();
 	void DeCrementInExecution();
 	void DeCrementCheckUp();
-
+	void MoveCompMissions();
+	void MoveCheckUpRovers();
 
 	// UI Functions
 

@@ -45,6 +45,6 @@ public:
 	int GetSpeed(); //Returns the rover speed
 	Mission* GetMission(); //Returns the pointer to the mission the rover is assigned to
 	int GetID();//Returns the ID for this rover
-
+	int GetDaysOver();
 	~Rover(); // Destructor
 };

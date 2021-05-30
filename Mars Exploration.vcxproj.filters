@@ -72,5 +72,8 @@
     <ClInclude Include="Data Structures\Queue.h">
       <Filter>Data Structures</Filter>
     </ClInclude>
+    <ClInclude Include="Data Structures\PQNode.h">
+      <Filter>Data Structures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

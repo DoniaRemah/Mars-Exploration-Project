@@ -59,11 +59,11 @@ void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
 		
 		//creating event
 		if (MissionTyp == 'P') {
-			Event* event = new Event(Polar, day, id, targetloc, duration, sig);
+			Event* event = new Event(this,Polar, day, id, targetloc, duration, sig);
 			num_PM++;
 		}
 		else {
-			Event* event = new Event(Emergency, day, id, targetloc, duration, sig);
+			Event* event = new Event(this,Emergency, day, id, targetloc, duration, sig);
 			num_EM++;
 		}
 	}
@@ -107,7 +107,7 @@ void MarsStation::PrintOutput()
 {
 	PriorityQueue<Mission*> copydata;
 	Mission*t;
-	int x = 0;
+	float x = 0;
 	int counter_waiting_EM = 0;
 	while (Waiting_EM.dequeueFront(t,x))
 	{
@@ -282,12 +282,16 @@ bool MarsStation::End_Sim()
 void MarsStation::Refresh()
 {
 	Day++; // Incrementing Day for MarsStation class.
+
 	// Re-arranging Queues. 
-	//(TODO: Have to add functions where it checks on when to move pointers)
 	InCrementWaiting();
 	DeCrementCheckUp();
 	DeCrementInExecution();
 
+	// Moving Functions
+
+	MoveCompMissions();
+	MoveCheckUpRovers();
 
 }
 
@@ -296,7 +300,7 @@ void MarsStation::InCrementWaiting()
 	Mission* m_mission;
 
 	PriorityQueue<Mission*> temp;
-	int x = 0;
+	float x = 0;
 	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
 	{
 		Waiting_EM.dequeueFront(m_mission,x);
@@ -329,7 +333,7 @@ void MarsStation::InCrementWaiting()
 void MarsStation::DeCrementInExecution()
 {
 	PriorityQueue<Rover*> temp;
-	int x = 0;
+	float x = 0;
 	Rover* m_rover;
 
 	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
@@ -378,4 +382,73 @@ void MarsStation::DeCrementCheckUp()
 		InCheckUp_PR.enqueue(m_rover);
 	}
 
+}
+
+void MarsStation::CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL)
+{
+	Mission* NewMission = new Mission(T, id, FD, MD, sig, TL); // Creating a mission object
+
+	if (T == 0) // If mission is an emergency mission add to Priority Queue of waiting emergency missions
+	{
+		NewMission->CalculatePriority(); // calculating priority if mission is emergency.
+		Waiting_EM.enqueue(NewMission, NewMission->GetPriority()); 
+	}
+	else if (T == 1) // If mission is a polar mission add to Queue of waiting polar missions
+	{
+		Waiting_PM.enqueue(NewMission); 
+	}
+}
+
+void MarsStation::MoveCompMissions()
+{
+	Rover* m_rover;
+
+	// Checking on Finished Missions
+
+	while (InExec_rov.peekBack(m_rover)) // Getting mission soon to be finished / finished.
+	{
+		if (m_rover->GetMission()->GetCD() == Day) // If the day to be finished has come
+		{
+			float x;
+			InExec_rov.dequeueBack(m_rover, x); // Getting Finished mission
+			Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+void MarsStation::MoveCheckUpRovers()
+{
+	// Checking on Rovers in Checkup-Queues.
+
+	Rover* m_rover;
+
+	while (InCheckUp_ER.peek(m_rover)) // Getting Emergency rover soon to be finished / finished.
+	{
+		if (m_rover->GetDaysOver() == 0) // If rover has finished checkup
+		{
+			InCheckUp_ER.dequeue(m_rover); // remove from checkup queue
+			Av_ER.enqueue(m_rover); // Add to available queue.
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	while (InCheckUp_PR.peek(m_rover)) // Getting Polar rover soon to be finished / finished.
+	{
+		if (m_rover->GetDaysOver() == 0) // If rover has finished checkup
+		{
+			InCheckUp_PR.dequeue(m_rover); // remove from checkup queue
+			Av_PR.enqueue(m_rover); // Add to available queue.
+		}
+		else
+		{
+			break;
+		}
+	}
 }

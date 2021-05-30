@@ -1,12 +1,11 @@
 #pragma once
-#include "Node.h"
-
+#include "PQNode.h"
 template <typename T>
 class PriorityQueue
 {
 private:
-	Node<T>* front;
-	Node<T>* back;
+	PQNode<T>* front;
+	PQNode<T>* back;
 public:
 
 	// All member Functions are to be defined here
@@ -21,7 +20,7 @@ public:
 
 	PriorityQueue(T  m_data) // non-default constructor
 	{
-		Node<T>* newNode = new Node<T>(m_data); // creating Node
+		PQNode<T>* newNode = new PQNode<T>(m_data); // creating Node
 		front = newNode; 
 		back = nullptr;
 	}
@@ -34,14 +33,14 @@ public:
 	void enqueue(T m_data ,float prio) // adds node to the end of the list.
 	{
 
-		Node<T>* newNode = new Node<T>(m_data); // creating Node
+		PQNode<T>* newNode = new PQNode<T>(m_data); // creating Node
 
 		if (IsEmpty())	//If this is the first Node.
 			front = newNode;
 		else
 		{
-			Node<T>* ptr = front;
-			Node<T>* prev = front;
+			PQNode<T>* ptr = front;
+			PQNode<T>* prev = front;
 
 			float Prio_Ptr = 0;
 
@@ -70,7 +69,7 @@ public:
 
 		}
 
-		Node<T>* ptr = front;
+		PQNode<T>* ptr = front;
 
 		while (ptr) // getting value of back ptr
 		{
@@ -82,11 +81,14 @@ public:
 			ptr = ptr->GetNext();
 		}
 	}
-	bool dequeueFront(T & return_data,int & prio_) // returns first node in the list.
+
+	// returns first node in the list.
+
+	bool dequeueFront(T & return_data,float & prio_) 
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
-		Node<T>* Delete_Node = front; // temp ptr for the node to delete
+		PQNode<T>* Delete_Node = front; // temp ptr for the node to delete
 
 		return_data = front->GetData();
 
@@ -100,11 +102,11 @@ public:
 		return true;
 	}
 
-	bool dequeueBack(T & return_data,int & prio_) // returns Last node in the list.
+	bool dequeueBack(T & return_data,float & prio_) // returns Last node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
-		Node<T>* Delete_Node = back; // temp ptr for the node to delete
+		PQNode<T>* Delete_Node = back; // temp ptr for the node to delete
 
 		return_data = back->GetData();
 		prio_ = back->GetPriority();
@@ -115,15 +117,15 @@ public:
 		}
 		else
 		{
-			Node<T>* Prev_Back; // pointer to previous node to back
-			Node<T>* ptr = front;
+			PQNode<T>* Prev_Back = nullptr; // pointer to previous node to back
+			PQNode<T>* ptr = front;
 
 			while (ptr)
 			{
 				if (ptr->GetNext() == back) // checking if this is the previous node.
 				{
 					Prev_Back = ptr;
-					return;
+					break;
 				}
 				ptr = ptr->GetNext();
 			}
@@ -145,14 +147,15 @@ public:
 
 	bool peekBack(T& m_node)
 	{
-		if (IsEmpty) return false;
-		m_node = back;
+		if (IsEmpty()) return false;
+		m_node = back->GetData();
 		return true;
 	}
 
 	~PriorityQueue() // destructor
 	{
-		T del;;
-		while (dequeueFront(del));
+		T del;
+		float x = 0;
+		while (dequeueFront(del,x));
 	}
 };

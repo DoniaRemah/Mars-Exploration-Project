@@ -1,30 +1,32 @@
 #pragma once
 
 template <typename T>
-class Node
+class PQNode
 {
 private:
 	T data;
-	Node<T>* Next;
+	PQNode<T>* Next;
+	float Priority;
 public:
 
 	// All member Functions are to be defined here
 
 	// Constructors 
 
-	Node() // defualt constructor (omittable)
+	PQNode() // defualt constructor (omittable)
 	{
 		Next = nullptr;
+		Priority = 0;
 	}
 
-	Node(T d) // Non-defualt Constructor
+	PQNode(T d) // Non-defualt Constructor
 	{
 		data = d;
 		Next = nullptr;
 	}
 
 	//Setters
-	void SetNext(Node<T>* n)
+	void SetNext(PQNode<T>* n)
 	{
 		Next = n;
 	}
@@ -34,9 +36,13 @@ public:
 		data = d;
 	}
 
+	void SetPriority(float  p)
+	{
+		Priority = p;
+	}
 
 	//Getters
-	Node<T>* GetNext()
+	PQNode<T>* GetNext()
 	{
 		return Next;
 	}
@@ -46,7 +52,12 @@ public:
 		return data;
 	}
 
-	~Node() // Destructor
+	float GetPriority()
+	{
+		return Priority;
+	}
+
+	~PQNode() // Destructor
 	{
 
 	}

@@ -1,29 +1,27 @@
 #pragma once
 #include "../Defs.h"
+#include "..\MarsStation\MarsStation.h"
 #pragma once
+class MarsStation;
 
 class Event
 {
-protected:
+private:
 	MissionType MType;
 	int Day;
 	int MissionID;
 	int Tloc; //mission target location
 	int MDuration; //duration needed to fulfill mission requirements
 	int MSignificance; // Mission significance
+	// Pointer to MarsStation
+	MarsStation* Station;
 
 public:
 
-	Event(MissionType, int d, int id, int targetloc, int duration, int significance) // Constructor
-	{
+	Event(MarsStation* myStation, MissionType T, int d, int id, int targetloc, int duration, int significance); // Constructor
 
-	}
-	virtual void Execute()
-	{
+	void Execute();
 
-	}
-	~Event() // Destructor
-	{
+	~Event(); // Destructor
 
-	}
 };

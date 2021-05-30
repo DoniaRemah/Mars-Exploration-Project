@@ -73,6 +73,11 @@ void Rover::DecDaysOver()
 	DaysChOver--;
 }
 
+int Rover::GetDaysOver()
+{
+	return DaysChOver;
+}
+
 Rover::~Rover() // Destructor
 {
 
