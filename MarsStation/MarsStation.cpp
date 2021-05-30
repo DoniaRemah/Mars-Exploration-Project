@@ -90,12 +90,12 @@ void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
 		//creating event
 		if (MissionTyp == 'P') {
 			Event* event = new Event(this, Polar, day, id, targetloc, duration, sig);
-			Events.enqueue(newevent);
+			Events.enqueue(event);
 			num_PM++;
 		}
 		else {
 			Event* event = new Event(this, Emergency, day, id, targetloc, duration, sig);
-			Events.enqueue(newevent);
+			Events.enqueue(event);
 			
 			num_EM++;
 		}
@@ -165,18 +165,17 @@ void MarsStation::PrintOutput()
 {
 	PriorityQueue<Mission*> copydata;
 	Mission*t;
-	float x = 0;
 	int counter_waiting_EM = 0;
-	while (Waiting_EM.dequeueFront(t,x))
+	while (Waiting_EM.dequeueFront(t))
 	{
-		copydata.enqueue(t,x);
+		copydata.enqueue(t,t->GetPriority());
 		counter_waiting_EM++;
 	}
 	int* arr_EM = new int[counter_waiting_EM++];
 	int i = 0;
-	while (copydata.dequeueFront(t,x))
+	while (copydata.dequeueFront(t))
 	{
-		Waiting_EM.enqueue(t,x);
+		Waiting_EM.enqueue(t,t->GetPriority());
 		arr_EM[i] = (t->GetID());
 	}
 	int counter_waiting_PM = 0;
@@ -197,7 +196,7 @@ void MarsStation::PrintOutput()
 	PriorityQueue<Rover*> copydata2;
 	int counter_EMInEXEC = 0;
 	int counter_PMInEXEC = 0;
-	while (InExec_rov.dequeueFront(M,x))
+	while (InExec_rov.dequeueFront(M))
 	{
 		if (M->GetMission()->GetTypeOfMission() == Emergency)
 		{
@@ -208,13 +207,13 @@ void MarsStation::PrintOutput()
 			counter_PMInEXEC++;
 
 		}
-		copydata2.enqueue(M,x);
+		copydata2.enqueue(M,M->GetMission()->GetCD());
 	}
 	int* arr_InExec_EM_rover = new int[counter_EMInEXEC * 2];
 	int* arr_InExec_PM_rover = new int[counter_PMInEXEC * 2];
 	int j = 0;
 	int f = 0;
-	while (copydata2.dequeueFront(M, x))
+	while (copydata2.dequeueFront(M))
 	{
 		if (M->GetMission()->GetTypeOfMission() == Emergency)
 		{
@@ -358,16 +357,16 @@ void MarsStation::InCrementWaiting()
 	Mission* m_mission;
 
 	PriorityQueue<Mission*> temp;
-	float x = 0;
+
 	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
 	{
-		Waiting_EM.dequeueFront(m_mission,x);
+		Waiting_EM.dequeueFront(m_mission);
 		m_mission->IncrementWD();
 		temp.enqueue(m_mission,m_mission->GetPriority());
 	}
 	while (!temp.IsEmpty()) // returning missions to original queue
 	{
-		temp.dequeueFront(m_mission,x);
+		temp.dequeueFront(m_mission);
 		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
 	}
 
@@ -396,14 +395,14 @@ void MarsStation::DeCrementInExecution()
 
 	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
 	{
-		InExec_rov.dequeueFront(m_rover,x);
+		InExec_rov.dequeueFront(m_rover);
 		m_rover->GetMission()->DecrementEX();
 		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
 	}
 
 	while (!temp.IsEmpty()) // returning rovers to original queue
 	{
-		temp.dequeueFront(m_rover,x);
+		temp.dequeueFront(m_rover);
 		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
 	}
 }

@@ -84,7 +84,7 @@ public:
 
 	// returns first node in the list.
 
-	bool dequeueFront(T & return_data,float & prio_) 
+	bool dequeueFront(T & return_data) 
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
@@ -93,7 +93,6 @@ public:
 		return_data = front->GetData();
 
 		front = front->GetNext();
-		prio_ = front->GetPriority();
 
 		if (Delete_Node == back) back = nullptr; // if node to delete is last one (special case)
 
@@ -109,7 +108,6 @@ public:
 		PQNode<T>* Delete_Node = back; // temp ptr for the node to delete
 
 		return_data = back->GetData();
-		prio_ = back->GetPriority();
 
 		if (back == front || back == nullptr) // If this is the last node.
 		{
@@ -155,7 +153,6 @@ public:
 	~PriorityQueue() // destructor
 	{
 		T del;
-		float x = 0;
-		while (dequeueFront(del,x));
+		while (dequeueFront(del));
 	}
 };
