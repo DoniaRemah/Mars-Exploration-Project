@@ -14,9 +14,14 @@ protected:
 
 public:
 
-	Event(MissionType, int d, int id, int targetloc, int duration, int significance) // Constructor
+	Event(MissionType type, int d, int id, int targetloc, int duration, int significance) // Constructor
 	{
-
+		Day = d;
+		MissionID = id;
+		Tloc = targetloc;
+		MDuration = duration;
+		MSignificance = significance;
+		MType = type;
 	}
 	virtual void Execute()
 	{
