@@ -509,13 +509,3 @@ void MarsStation::MoveCheckUpRovers()
 		}
 	}
 }
-
-bool MarsStation::ExecuteEvents()
-{
-	return true;
-}
-
-void MarsStation::PrintStatistics()
-{
-
-}

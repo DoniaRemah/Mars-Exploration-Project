@@ -80,7 +80,7 @@ public:
 
 	void ReadMode(); // Calls on UI to read mode from user.
 	void PrintOutput(); //Calls on Printoutput from UI
-	void PrintStatistics(); // Calls on Print Statistics from UI
+
 
 	// Destructor
 	~MarsStation();
