@@ -49,7 +49,7 @@ public:
 			{
 				Prio_Ptr = ptr->GetPriority();
 
-				if (prio >= Prio_Ptr)
+				if (prio > Prio_Ptr)
 				{
 					if (ptr == front)
 					{
@@ -61,6 +61,12 @@ public:
 						newNode->SetNext(ptr);
 						prev->SetNext(newNode);
 					}	
+					break;
+				}
+				else if (!ptr->GetNext()) 
+				{
+					ptr->SetNext(newNode);
+					newNode->SetNext(nullptr);
 					break;
 				}
 
