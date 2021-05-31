@@ -45,6 +45,7 @@ public:
 			if (back == nullptr) // If this is the second node
 			{
 				back = newNode;
+				front->SetNext(newNode);
 			}
 			else
 			{

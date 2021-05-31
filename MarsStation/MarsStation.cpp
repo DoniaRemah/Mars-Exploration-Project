@@ -102,9 +102,8 @@ void MarsStation::AddtoEventQ(ifstream & file, int NumEvents)
 	}
 }
 
-bool MarsStation::Assign()
+void MarsStation::Assign()
 {
-	bool CanAssign = false;
 	Mission* availableM;
 	Rover* availableR;
 	//assigning Emergency missions first
@@ -119,7 +118,6 @@ bool MarsStation::Assign()
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
 		InExec_rov.enqueue(availableR, availableM->GetCD());
-		CanAssign = true;
 	}
 	//assigning Polar missions
 	while (!Waiting_PM.IsEmpty() && !Av_PR.IsEmpty()) {
@@ -128,9 +126,8 @@ bool MarsStation::Assign()
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
 		InExec_rov.enqueue(availableR, availableM->GetCD());
-		CanAssign = true;
 	}
-	return CanAssign;
+	return;
 }
 
 void MarsStation::AddtoRoverQ(ifstream & file)
@@ -466,8 +463,7 @@ void MarsStation::MoveCompMissions()
 	{
 		if (m_rover->GetMission()->GetCD() == Day) // If the day to be finished has come
 		{
-			float x;
-			InExec_rov.dequeueBack(m_rover, x); // Getting Finished mission
+			InExec_rov.dequeueBack(m_rover); // Getting Finished mission
 			Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
 		}
 		else

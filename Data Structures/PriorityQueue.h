@@ -34,6 +34,7 @@ public:
 	{
 
 		PQNode<T>* newNode = new PQNode<T>(m_data); // creating Node
+		newNode->SetPriority(prio);
 
 		if (IsEmpty())	//If this is the first Node.
 			front = newNode;
@@ -101,7 +102,7 @@ public:
 		return true;
 	}
 
-	bool dequeueBack(T & return_data,float & prio_) // returns Last node in the list.
+	bool dequeueBack(T & return_data) // returns Last node in the list.
 	{
 		if (IsEmpty()) return false; // If queue is empty return 
 
@@ -129,6 +130,7 @@ public:
 			}
 
 			back = Prev_Back;
+			back->SetNext(nullptr);
 		}
 
 		delete Delete_Node; // freeing memory
@@ -138,8 +140,8 @@ public:
 
 	bool peekFront(T & m_node) // returns a copy of the first node.
 	{
-		if (IsEmpty) return false;
-		m_node = front;
+		if (IsEmpty()) return false;
+		m_node = front->GetData();
 		return true;
 	}
 

@@ -67,7 +67,7 @@ public:
 	bool ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
 	bool End_Sim(); // Checks if All events are completed
 	void Refresh(); // Increments Day, does necessary movements across lists.
-	bool Assign(); // checks if missions can be assigned. returns true if yes. false if not.
+	void Assign(); // assigns avaiable missions to rovers
 
 	///////////////////////////////////////////////
 	void InCrementWaiting();
