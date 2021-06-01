@@ -5,6 +5,7 @@
 
 class Mission;
 
+
 class Rover
 {
 private:
@@ -18,7 +19,7 @@ private:
 	int DaysChOver;
 	bool InCheckUp; 
 	bool IsAvailable;
-	int ID;
+	static int ID;
 
 	Mission* m_mission; // Pointer to mission the rover is assigned to. Initially set to Null
 
@@ -48,3 +49,5 @@ public:
 	int GetDaysOver();
 	~Rover(); // Destructor
 };
+
+

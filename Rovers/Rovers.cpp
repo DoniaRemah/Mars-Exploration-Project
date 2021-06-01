@@ -1,5 +1,7 @@
 #include "Rovers.h"
 
+int Rover::ID = 1; //Initializing the static data member ID
+
 Rover::Rover(RoverType T, int sp, int ChD, int MM) // Constructor (Initializing input data)
 {
 	Type = T;
@@ -7,6 +9,8 @@ Rover::Rover(RoverType T, int sp, int ChD, int MM) // Constructor (Initializing 
 	CheckUp_Duration = ChD;
 	MaxMissions = MM;
 	m_mission = nullptr;
+	SetID(ID);
+	ID++;
 }
 
 
