@@ -8,7 +8,7 @@ class UI
 
 private:
 
-	int mode;
+	int m_mode;
 
 public:
 

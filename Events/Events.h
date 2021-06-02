@@ -22,6 +22,8 @@ public:
 
 	void Execute();
 
+	int GetDay();
+
 	~Event(); // Destructor
 
 };

@@ -4,11 +4,12 @@
 MarsStation::MarsStation()
 {
 	Day = 1;
+	UI_ptr = new UI;
 }
 void MarsStation::Load()
 {
 	//getting file name from the user
-	UI_ptr->OutputStr("Enter the input file name (without the .txt extension) ");
+	UI_ptr->OutputStr("Enter the INPUT file name (without the .txt extension) ");
 	string filename = UI_ptr->getInput();
 	//opening the input file
 	ifstream file;
@@ -30,7 +31,8 @@ void MarsStation::Load()
 
 void MarsStation::Save()
 {
-	if (Day == 1) {
+	if (Day == 1) 
+	{
 		//getting the file name from the user
 		UI_ptr->OutputStr("Enter the output file name (without the .txt extension) ");
 		string FileName = UI_ptr->getInput();
@@ -168,6 +170,7 @@ void MarsStation::PrintOutput()
 		copydata.enqueue(t,t->GetPriority());
 		counter_waiting_EM++;
 	}
+
 	int* arr_EM = new int[counter_waiting_EM++];
 	int i = 0;
 	while (copydata.dequeueFront(t))
@@ -506,12 +509,16 @@ void MarsStation::MoveCheckUpRovers()
 	}
 }
 
-bool MarsStation::ExecuteEvents()
+void MarsStation::ExecuteEvents()
 {
-	return true;
+	Event* m_event;
+	Events.peek(m_event);
+	if (m_event)
+	{
+		if (m_event->GetDay() == Day) // If day of formulation has come.
+		{
+			m_event->Execute();  // Create the mission and add it to waiting queue.
+		}
+	}
 }
 
-void MarsStation::PrintStatistics()
-{
-
-}

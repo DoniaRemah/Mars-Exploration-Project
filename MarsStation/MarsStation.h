@@ -64,7 +64,7 @@ public:
 	void CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL); // A function that creates a mission node and adds it to the waiting Queue
 	//Simulation Functions
 
-	bool ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
+	void ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
 	bool End_Sim(); // Checks if All events are completed
 	void Refresh(); // Increments Day, does necessary movements across lists.
 	void Assign(); // assigns avaiable missions to rovers
@@ -80,7 +80,6 @@ public:
 
 	void ReadMode(); // Calls on UI to read mode from user.
 	void PrintOutput(); //Calls on Printoutput from UI
-	void PrintStatistics(); // Calls on Print Statistics from UI
 
 	// Destructor
 	~MarsStation();

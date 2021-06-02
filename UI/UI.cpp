@@ -3,6 +3,7 @@ using namespace std;
 #include<iostream>
 #include<string>
 #include"../Defs.h"
+#include <Windows.h>
 
 void UI::OutputStr(string str)
 {
@@ -22,11 +23,12 @@ string UI::getInput()
 
 UI::UI() 
 {
-
+	m_mode = 0;
 }
+
 void UI::ReadMode() 
 {
-	int mode_=-1;
+	int mode_ = -1;
 	cout << "Choose the mode: " << endl;
 	cout << "------------------------------" << endl;
 	cout << "1: Interactive Mode " << endl;
@@ -37,7 +39,7 @@ void UI::ReadMode()
 	{
 		if (mode_ == 1 || mode_ == 2 || mode_ == 3)
 		{
-			mode = mode_;
+			m_mode = mode_;
 			break;
 		}
 		else
@@ -51,9 +53,9 @@ void UI::ReadMode()
 
 void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiting_EM, int* arr_EM, int counter_waiting_PM, int* arr_PM, int counter_EMInEXEC, int* arr_InExec_EM_rover, int counter_PMInEXEC, int* arr_InExec_PM_rover, int counter_Av_ER, int* arr_Av_ER, int counter_Av_PR, int* arr_Av_PR, int counter_InCheckUp_ER, int* arr_InCheckUp_ER, int counter_InCheckUp_PR, int* arr_InCheckUp_PR, int counter_Completed_EM,int * arr_Completed_EM,int  counter_Completed_PM, int *arr_Completed_PM)
 {
-	if (mode ==1 || mode ==2)
+	if (m_mode ==1 || m_mode ==2)
 	{
-		cout << "current day:" << day << endl;
+		cout << "Current day:" << day << endl;
 		cout << TotalNumberOfWaitingMission << " " << "Waiting Missions: [" ;
 		for (int i = 0; i < counter_waiting_EM; i++)
 		{
@@ -155,12 +157,17 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		}
 		cout << ")";
 
-		if (mode == 2)
+		cout << endl <<"--------------------------------------------------" << endl;
+
+		if (m_mode == 1)
 		{
 			cin.get();
 			cout << endl;
 		}
-
+		else if (m_mode == 2)
+		{
+			Sleep(3000);
+		}
 
 	}
 }

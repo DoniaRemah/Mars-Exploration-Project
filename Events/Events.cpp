@@ -17,6 +17,12 @@ void Event::Execute()
 	Station->CreateMission(MType, MissionID, Day, MDuration, MSignificance, Tloc); // Calling on function create mission in Marsstation class
 }
 
+
+int Event::GetDay()
+{
+	return Day;
+}
+
 Event::~Event() // Destructor
 {
 
