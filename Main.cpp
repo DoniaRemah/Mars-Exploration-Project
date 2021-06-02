@@ -15,15 +15,20 @@ int main()
 		MarsStration_Obj.ExecuteEvents();
 		MarsStration_Obj.Assign();
 
+	
+		MarsStration_Obj.Refresh(); // Moving to Next Day
+
 		MarsStration_Obj.Save(); // Saving to output File
 		MarsStration_Obj.PrintOutput(); // Printing to console 
 
-		MarsStration_Obj.Refresh(); // Moving to Next Day
 
 		if (MarsStration_Obj.End_Sim()) // for printing statistics
 		{
+			MarsStration_Obj.OutputStatistics();
 			break;
 		}
+
+		MarsStration_Obj.IncrementDay();
 
 	}
 

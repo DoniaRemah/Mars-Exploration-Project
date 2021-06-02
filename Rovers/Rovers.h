@@ -20,6 +20,7 @@ private:
 	bool InCheckUp; 
 	bool IsAvailable;
 	static int ID;
+	int ThisID; //The rover object's ID
 
 	Mission* m_mission; // Pointer to mission the rover is assigned to. Initially set to Null
 
@@ -47,6 +48,8 @@ public:
 	Mission* GetMission(); //Returns the pointer to the mission the rover is assigned to
 	int GetID();//Returns the ID for this rover
 	int GetDaysOver();
+	RoverType GetType();
+	bool MoveToCheckup(); //returns true if the rover excuted a number of missions equal to max missions
 	~Rover(); // Destructor
 };
 

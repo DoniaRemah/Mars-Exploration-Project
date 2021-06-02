@@ -14,6 +14,7 @@ void Mission::Assign(Rover* R)
 {
 	m_rover = R;
 	CalculateED();
+	CalculateCD();
 	DaysToBeOver = ExecutionDays;
 }
 

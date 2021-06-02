@@ -35,6 +35,7 @@ void UI::ReadMode()
 	cout << "2: Step by Step Mode " << endl;
 	cout << "3: Silent Mode " << endl;
 	cin >> mode_;
+	cin.get(); //to ignore the "enter" key press and not save it in the buffer
 	while (true)
 	{
 		if (mode_ == 1 || mode_ == 2 || mode_ == 3)
@@ -46,7 +47,7 @@ void UI::ReadMode()
 		{
 				cout << "Wrong number, please enter again: ";
 				cin >> mode_;
-				cout << endl;
+				cin.get();
 		}
 	}     
 }

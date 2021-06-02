@@ -46,16 +46,18 @@ void MarsStation::Save()
 	}
 	//saving the completed missions information
 	Save_CompleteM();
-	if (End_Sim()) {
-		//output the statistics
-		*DestinationFile << "Missions: " << num_EM + num_PM << "[P: " << num_PM << " E: " << num_EM << "]" << endl;
-		*DestinationFile << "Rovers: " << num_ER + num_PR << "[P: " << num_PR << " E: " << num_ER << "]" << endl;
-		*DestinationFile << "Average Wait= " << Total_Wait / (num_EM + num_PM) << "\t" << "Average Exec= " << Total_InExec / (num_EM + num_PM) << endl;
-		//closing the file
-		DestinationFile->close();
-		delete DestinationFile;
-	}
+}
 
+void MarsStation::OutputStatistics()
+{
+	*DestinationFile << "………………………………………………" << endl << "………………………………………………" << endl;
+	//output the statistics
+	*DestinationFile << "Missions: " << num_EM + num_PM << "[P: " << num_PM << " E: " << num_EM << "]" << endl;
+	*DestinationFile << "Rovers: " << num_ER + num_PR << "[P: " << num_PR << " E: " << num_ER << "]" << endl;
+	*DestinationFile << "Average Wait= " << Total_Wait / (num_EM + num_PM) << "\t" << "Average Exec= " << Total_InExec / (num_EM + num_PM) << endl;
+	//closing the file
+	DestinationFile->close();
+	delete DestinationFile;
 }
 
 void MarsStation::Save_CompleteM()
@@ -65,7 +67,12 @@ void MarsStation::Save_CompleteM()
 		Mission* CompletedM;
 		Completed_M.dequeue(CompletedM);
 		*DestinationFile << CompletedM->GetCD() << "\t" << CompletedM->GetID() << "\t" << CompletedM->GetFD() << "\t" << CompletedM->GetWD() << "\t" << CompletedM->GetED() << endl;
-		Completed_ID.enqueue(CompletedM->GetID());
+		if (CompletedM->GetTypeOfMission() == Emergency) {
+			CompletedE_ID.enqueue(CompletedM->GetID());
+		}
+		else {
+			CompletedP_ID.enqueue(CompletedM->GetID());
+		}
 		Total_Wait += CompletedM->GetWD(); //incrementing statistics
 		Total_InExec += CompletedM->GetED();
 		delete CompletedM;
@@ -171,7 +178,7 @@ void MarsStation::PrintOutput()
 		counter_waiting_EM++;
 	}
 
-	int* arr_EM = new int[counter_waiting_EM++];
+	int* arr_EM = new int[counter_waiting_EM];
 	int i = 0;
 	while (copydata.dequeueFront(t))
 	{
@@ -186,7 +193,7 @@ void MarsStation::PrintOutput()
 		counter_waiting_PM++;
 	}
 	int TotalNumberOfWaitingMission = counter_waiting_PM + counter_waiting_EM;
-	int* arr_PM = new int[counter_waiting_PM++];
+	int* arr_PM = new int[counter_waiting_PM];
 	while (copydata_.dequeue(t))
 	{
 		Waiting_PM.enqueue(t);
@@ -220,13 +227,16 @@ void MarsStation::PrintOutput()
 			arr_InExec_EM_rover[j] = M->GetMission()->GetID();
 			j++;
 			arr_InExec_EM_rover[j] = M->GetID();
+			j++;
 		}
 		else
 		{
 			arr_InExec_PM_rover[f] = M->GetMission()->GetID();
 			f++;
 			arr_InExec_PM_rover[f] = M->GetID();
+			f++;
 		}
+		InExec_rov.enqueue(M, M->GetMission()->GetCD());
 	}
 	j = 0;
 	Queue<Rover*>k_;
@@ -240,6 +250,7 @@ void MarsStation::PrintOutput()
 	while (k_.dequeue(M))
 	{
 		arr_Av_ER[j] = M->GetID();
+		j++;
 		Av_ER.enqueue(M);
 	}
 	j = 0;
@@ -253,6 +264,7 @@ void MarsStation::PrintOutput()
 	while (k_.dequeue(M))
 	{
 		arr_Av_PR[j] = M->GetID();
+		j++;
 		Av_PR.enqueue(M);
 	}
 	j = 0;
@@ -314,6 +326,11 @@ void MarsStation::PrintOutput()
 	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, counter_Completed_EM, arr_Completed_EM, counter_Completed_PM, arr_Completed_PM);
 }
 
+void MarsStation::IncrementDay()
+{
+	Day++;
+}
+
 
 void MarsStation::ReadMode()
 {
@@ -322,11 +339,12 @@ void MarsStation::ReadMode()
 
 MarsStation::~MarsStation()
 {
+	delete UI_ptr;
 }
 
 bool MarsStation::End_Sim() 
 {
-	if (Events.IsEmpty() && Waiting_EM.IsEmpty() && Waiting_PM.IsEmpty()) 
+	if (Events.IsEmpty() && Waiting_EM.IsEmpty() && Waiting_PM.IsEmpty() && InExec_rov.IsEmpty()) 
 	{
 		return true;
 	}
@@ -338,7 +356,7 @@ bool MarsStation::End_Sim()
 
 void MarsStation::Refresh()
 {
-	Day++; // Incrementing Day for MarsStation class.
+	//Day++; // Incrementing Day for MarsStation class.
 
 	// Re-arranging Queues. 
 	InCrementWaiting();
@@ -468,12 +486,37 @@ void MarsStation::MoveCompMissions()
 		{
 			InExec_rov.dequeueBack(m_rover); // Getting Finished mission
 			Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
+			MoveRover(m_rover);
 		}
 		else
 		{
 			break;
 		}
 	}
+}
+
+void MarsStation::MoveRover (Rover * rov)
+{
+	//moving rovers to checkup
+	if (rov->MoveToCheckup()) {
+		if (rov->GetType() == Emergency_Rover) {
+			InCheckUp_ER.enqueue(rov);
+		}
+		else {
+			InCheckUp_PR.enqueue(rov);
+		}
+		rov->SetInCheckUp(true);
+		return;
+	}
+
+	//returning rovers to the available list
+	if (rov->GetType() == Emergency_Rover) {
+		Av_ER.enqueue(rov);
+	}
+	else {
+		Av_PR.enqueue(rov);
+	}
+	return;
 }
 
 void MarsStation::MoveCheckUpRovers()
@@ -509,16 +552,15 @@ void MarsStation::MoveCheckUpRovers()
 	}
 }
 
+
+
 void MarsStation::ExecuteEvents()
 {
 	Event* m_event;
-	Events.peek(m_event);
-	if (m_event)
+	while (Events.peek(m_event) && m_event->GetDay() == Day) 
 	{
-		if (m_event->GetDay() == Day) // If day of formulation has come.
-		{
-			m_event->Execute();  // Create the mission and add it to waiting queue.
-		}
+		Events.dequeue(m_event);
+		m_event->Execute();  // Create the mission and add it to waiting queue.
 	}
 }
 

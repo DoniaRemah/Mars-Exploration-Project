@@ -48,7 +48,8 @@ private:
 
 	// Completed Missions
 	Queue<Mission*> Completed_M; // List of Completed Missions 
-	Queue<int>Completed_ID;		//List of Completed Missions' IDs
+	Queue<int>CompletedE_ID;		//List of Completed Emergency Missions' IDs
+	Queue<int>CompletedP_ID;		//List of Completed Polar Missions' IDs
 
 public:
 
@@ -56,8 +57,10 @@ public:
 
 	////////////////////////////////////////////////
 	void Load();
-	void Save(); 
+	void Save(); 	
+	void OutputStatistics(); //Prints statistics to the output file
 	void Save_CompleteM(); //dequeues and saves the completed missions to o/p file
+
 	///////////////////////////////////////////////
 	void AddtoRoverQ(ifstream&); //Adds rovers to a waiting rovers' Queue
 	void AddtoEventQ(ifstream &,int); //Add Events to events' Q
@@ -75,11 +78,14 @@ public:
 	void DeCrementCheckUp();
 	void MoveCompMissions();
 	void MoveCheckUpRovers();
+	void MoveRover(Rover*);
 
 	// UI Functions
 
 	void ReadMode(); // Calls on UI to read mode from user.
 	void PrintOutput(); //Calls on Printoutput from UI
+
+	void IncrementDay();
 
 	// Destructor
 	~MarsStation();

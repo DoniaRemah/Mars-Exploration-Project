@@ -4,7 +4,6 @@
 enum RoverType
 {
 	Emergency_Rover,
-	Mountain_Rover,
 	Polar_Rover
 };
 

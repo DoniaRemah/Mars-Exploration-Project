@@ -66,11 +66,11 @@ int Rover::GetNumOfMissions()
 }
 void Rover:: SetID(int I_D)
 {
-	ID=I_D;
+	ThisID=I_D;
 }
 int Rover::GetID()
 {
-	return ID;
+	return ThisID;
 }
 void Rover::DecDaysOver()
 {
@@ -80,6 +80,19 @@ void Rover::DecDaysOver()
 int Rover::GetDaysOver()
 {
 	return DaysChOver;
+}
+
+RoverType Rover::GetType()
+{
+	return Type;
+}
+
+bool Rover::MoveToCheckup()
+{
+	if (Num_Of_ExecMissions == MaxMissions) {
+		return true;
+	}
+	return false;
 }
 
 Rover::~Rover() // Destructor
