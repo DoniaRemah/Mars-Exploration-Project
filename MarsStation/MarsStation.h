@@ -80,6 +80,10 @@ public:
 	void MoveCheckUpRovers();
 	void MoveRover(Rover*);
 
+	//////////////////////////////////////////////
+	//Bonus Operations
+	void CheckMissionFail(); //Checks if mission failed
+
 	// UI Functions
 
 	void ReadMode(); // Calls on UI to read mode from user.

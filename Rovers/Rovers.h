@@ -50,6 +50,7 @@ public:
 	int GetDaysOver();
 	RoverType GetType();
 	bool MoveToCheckup(); //returns true if the rover excuted a number of missions equal to max missions
+	bool EngineFail();	//returns true if the rover's engine failed and it failed to complete the mission
 	~Rover(); // Destructor
 };
 

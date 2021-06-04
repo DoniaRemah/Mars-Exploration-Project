@@ -45,6 +45,10 @@ public:
 	int GetCD(); // Gets Completion Day
 	float GetPriority(); // Gets Priority of mission
 	MissionType GetTypeOfMission();
+
+	//Reformulate
+	void Reformulate(int); //resets mission info in case of mission failure
+
 	~Mission(); // Destructor
 
 };

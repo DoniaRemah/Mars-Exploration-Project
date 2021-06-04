@@ -1,4 +1,6 @@
 #include "Rovers.h"
+#include<iostream>
+using namespace std;
 
 int Rover::ID = 1; //Initializing the static data member ID
 
@@ -90,6 +92,17 @@ RoverType Rover::GetType()
 bool Rover::MoveToCheckup()
 {
 	if (Num_Of_ExecMissions == MaxMissions) {
+		return true;
+	}
+	return false;
+}
+
+bool Rover::EngineFail()
+{
+	//returns a random number from 1 to 100
+	int random = rand() % 101;
+	//5% fail
+	if (random >= 1 && random <= 5){
 		return true;
 	}
 	return false;

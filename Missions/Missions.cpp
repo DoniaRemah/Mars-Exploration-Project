@@ -9,6 +9,7 @@ Mission::Mission(MissionType T, int id, int FD, int MD, int sig, int TL)
 	Significance = sig;
 	TLocation = TL;
 	m_rover = nullptr;
+	WaitingDays = 0;
 }
 void Mission::Assign(Rover* R)
 {
@@ -83,6 +84,11 @@ MissionType Mission::GetTypeOfMission()
 int Mission::GetCD()
 {
 	return CompletionDay;
+}
+void Mission::Reformulate(int day)
+{
+	FormulationDay = day;
+	WaitingDays = 0;
 }
 Mission::~Mission()
 {

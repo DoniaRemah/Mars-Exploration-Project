@@ -363,8 +363,10 @@ void MarsStation::Refresh()
 	DeCrementCheckUp();
 	DeCrementInExecution();
 
-	// Moving Functions
+	//Checking for mission failure
+	CheckMissionFail();
 
+	// Moving Functions
 	MoveCompMissions();
 	MoveCheckUpRovers();
 
@@ -517,6 +519,37 @@ void MarsStation::MoveRover (Rover * rov)
 		Av_PR.enqueue(rov);
 	}
 	return;
+}
+
+void MarsStation::CheckMissionFail()
+{
+	Rover* rov;
+	while (InExec_rov.peekBack(rov) && rov->GetMission()->GetCD() == Day && rov->EngineFail()) {
+		InExec_rov.dequeueBack(rov);
+
+		//moving rover to checkup
+		if (rov->GetType() == Emergency_Rover) {
+			InCheckUp_ER.enqueue(rov);
+		}
+		else {
+			InCheckUp_PR.enqueue(rov);
+		}
+		rov->SetInCheckUp(true);
+
+		//reformulating mission
+		Mission* mission = rov->GetMission();
+		mission->Reformulate(Day);
+		if (mission->GetTypeOfMission() == Emergency) 
+		{
+			Waiting_EM.enqueue(mission,mission->GetPriority());
+		}
+		else
+		{
+			Waiting_PM.enqueue(mission);
+		}
+
+	}
+
 }
 
 void MarsStation::MoveCheckUpRovers()
