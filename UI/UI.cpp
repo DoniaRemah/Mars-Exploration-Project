@@ -171,6 +171,12 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		}
 
 	}
+	if (m_mode == 3)
+	{
+		cout << "Silent Mode" << endl;
+		cout << "Simulation Starts..." << endl;
+		cout << "Simulation ends,output file created";
+	}
 }
 
 void UI::PrintStatistics()
