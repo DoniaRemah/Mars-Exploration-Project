@@ -52,7 +52,7 @@ void UI::ReadMode()
 	}     
 }
 
-void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiting_EM, int* arr_EM, int counter_waiting_PM, int* arr_PM, int counter_EMInEXEC, int* arr_InExec_EM_rover, int counter_PMInEXEC, int* arr_InExec_PM_rover, int counter_Av_ER, int* arr_Av_ER, int counter_Av_PR, int* arr_Av_PR, int counter_InCheckUp_ER, int* arr_InCheckUp_ER, int counter_InCheckUp_PR, int* arr_InCheckUp_PR, int counter_Completed_EM,int * arr_Completed_EM,int  counter_Completed_PM, int *arr_Completed_PM)
+void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiting_EM, int* arr_EM, int counter_waiting_PM, int* arr_PM, int counter_EMInEXEC, int* arr_InExec_EM_rover, int counter_PMInEXEC, int* arr_InExec_PM_rover, int counter_Av_ER, int* arr_Av_ER, int counter_Av_PR, int* arr_Av_PR, int counter_InCheckUp_ER, int* arr_InCheckUp_ER, int counter_InCheckUp_PR, int* arr_InCheckUp_PR, int counter_Completed_EM, Queue<int>& Completed_EM,int  counter_Completed_PM, Queue<int>& Completed_PM)
 {
 	if (m_mode ==1 || m_mode ==2)
 	{
@@ -139,27 +139,54 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		cout << ")" << endl;
 		cout << "------------------------------------------" << endl;
 		cout << (counter_Completed_PM + counter_Completed_EM) << " Completed Missions: [";
-		for (int i = 0; i < counter_Completed_EM; i = i++)
+
+		Queue<int> copy_data;
+		int x;
+		int counter = 1;
+		while (!Completed_EM.IsEmpty()) // Printing ids of finished emergency missions.
 		{
-			cout << arr_Completed_EM[i];
-			if (i != counter_Completed_EM - 1)
+			Completed_EM.dequeue(x);
+			cout << x;
+			if (counter != counter_Completed_EM )
 			{
 				cout << ",";
 			}
+			counter++;
+			copy_data.enqueue(x);
 		}
+
+		while (!copy_data.IsEmpty()) // Getting back ids into queue
+		{
+			copy_data.dequeue(x);
+			Completed_EM.enqueue(x);
+		}
+
 		cout << "] (";
-		for (int i = 0; i < counter_Completed_PM; i = i++)
+		counter = 1;
+
+		while (!Completed_PM.IsEmpty()) // Printing ids of finished polar missions.
 		{
-			cout << arr_Completed_PM[i];
-			if (i != counter_Completed_PM - 1)
+			Completed_PM.dequeue(x);
+			cout << x;
+			if (counter != counter_Completed_PM)
 			{
 				cout << ",";
 			}
+			counter++;
+			copy_data.enqueue(x);
 		}
+
+		while (!copy_data.IsEmpty()) // Getting back ids into queue
+		{
+			copy_data.dequeue(x);
+			Completed_PM.enqueue(x);
+		}
+
+
 		cout << ")";
 
 		cout << endl <<"--------------------------------------------------" << endl;
-
+		cout << endl;
 		if (m_mode == 1)
 		{
 			cin.get();
@@ -167,7 +194,7 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		}
 		else if (m_mode == 2)
 		{
-			Sleep(3000);
+			Sleep(2000);
 		}
 
 	}

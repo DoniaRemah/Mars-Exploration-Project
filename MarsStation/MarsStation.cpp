@@ -4,6 +4,8 @@
 MarsStation::MarsStation()
 {
 	Day = 1;
+	Count_Completed_EM = 0;
+	Count_Completed_PM = 0;
 	UI_ptr = new UI;
 }
 void MarsStation::Load()
@@ -69,9 +71,11 @@ void MarsStation::Save_CompleteM()
 		*DestinationFile << CompletedM->GetCD() << "\t" << CompletedM->GetID() << "\t" << CompletedM->GetFD() << "\t" << CompletedM->GetWD() << "\t" << CompletedM->GetED() << endl;
 		if (CompletedM->GetTypeOfMission() == Emergency) {
 			CompletedE_ID.enqueue(CompletedM->GetID());
+			Count_Completed_EM++;
 		}
 		else {
 			CompletedP_ID.enqueue(CompletedM->GetID());
+			Count_Completed_PM++;
 		}
 		Total_Wait += CompletedM->GetWD(); //incrementing statistics
 		Total_InExec += CompletedM->GetED();
@@ -292,38 +296,14 @@ void MarsStation::PrintOutput()
 		arr_InCheckUp_ER[j] = M->GetID();
 		InCheckUp_ER.enqueue(M);
 	}
-	int counter_Completed_EM = 0;
-	int counter_Completed_PM = 0;
-	while (Completed_M.dequeue(t))
-	{
-		if (t->GetTypeOfMission() == Emergency)
-		{
-			counter_Completed_EM++;
-		}
-		else 
-		{
-			counter_Completed_PM++;
-		}
-		copydata_.enqueue(t);
-	}
-	int* arr_Completed_EM = new int[counter_Completed_EM];
-	int* arr_Completed_PM = new int[counter_Completed_PM];
-	int E = 0;
-	int P = 0;
-	while (copydata_.dequeue(t))
-	{
-		if (t->GetTypeOfMission() == Emergency)
-		{
-			arr_Completed_EM[E] = t->GetID();
-		}
-		else
-		{
-			arr_Completed_PM[P] = t->GetID();
-		}
-		Completed_M.enqueue(t);
-	}
 
-	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, counter_Completed_EM, arr_Completed_EM, counter_Completed_PM, arr_Completed_PM);
+
+	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, Count_Completed_EM, CompletedE_ID, Count_Completed_PM, CompletedP_ID);
+	
+	delete[]arr_Av_ER; delete[] arr_Av_PR; delete[] arr_EM; delete[] arr_InCheckUp_ER; delete[] arr_InCheckUp_PR;
+	delete[]arr_InExec_EM_rover; delete[] arr_InExec_PM_rover; delete[] arr_PM; 
+
+
 }
 
 void MarsStation::IncrementDay()
@@ -356,7 +336,6 @@ bool MarsStation::End_Sim()
 
 void MarsStation::Refresh()
 {
-	//Day++; // Incrementing Day for MarsStation class.
 
 	// Re-arranging Queues. 
 	InCrementWaiting();

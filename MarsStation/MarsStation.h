@@ -50,7 +50,8 @@ private:
 	Queue<Mission*> Completed_M; // List of Completed Missions 
 	Queue<int>CompletedE_ID;		//List of Completed Emergency Missions' IDs
 	Queue<int>CompletedP_ID;		//List of Completed Polar Missions' IDs
-
+	int Count_Completed_EM;
+	int Count_Completed_PM;
 public:
 
 	MarsStation(); // Constructor 
