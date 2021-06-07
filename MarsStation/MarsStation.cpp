@@ -19,7 +19,7 @@ void MarsStation::Load()
 	//checking if the file is open
 	while (!file.is_open()) {
 		UI_ptr->OutputStr("Error: file not found.");
-		UI_ptr->OutputStr("Enter the input file name (without the .txt extenstion) ");
+		UI_ptr->OutputStr("Enter the INPUT file name (without the .txt extenstion) ");
 		filename = UI_ptr->getInput();
 		file.open(filename + ".txt", ios::in);
 	}
@@ -36,7 +36,7 @@ void MarsStation::Save()
 	if (Day == 1) 
 	{
 		//getting the file name from the user
-		UI_ptr->OutputStr("Enter the output file name (without the .txt extension) ");
+		UI_ptr->OutputStr("Enter the OUTPUT file name (without the .txt extension) ");
 		string FileName = UI_ptr->getInput();
 		//creating the file
 		ofstream* savefile = new ofstream;
@@ -285,9 +285,11 @@ void MarsStation::PrintOutput()
 	{
 		arr_InCheckUp_PR[j] = M->GetID();
 		InCheckUp_PR.enqueue(M);
+		j++;
 	}
+	j = 0;
 	int counter_InCheckUp_ER = 0;
-	while (InCheckUp_PR.dequeue(M))
+	while (InCheckUp_ER.dequeue(M))
 	{
 		counter_InCheckUp_ER++;
 		k_.enqueue(M);
@@ -297,6 +299,7 @@ void MarsStation::PrintOutput()
 	{
 		arr_InCheckUp_ER[j] = M->GetID();
 		InCheckUp_ER.enqueue(M);
+		j++;
 	}
 
 
