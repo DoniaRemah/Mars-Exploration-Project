@@ -184,15 +184,15 @@ void MarsStation::PrintOutput()
 	PriorityQueue<Mission*> copydata;
 	Mission*t;
 	int counter_waiting_EM = 0;
-	while (Waiting_EM.dequeueFront(t))
+	while (Waiting_EM.dequeueFront(t))//count number of Emergency mission in waiting list 
 	{
 		copydata.enqueue(t,t->GetPriority());
 		counter_waiting_EM++;
 	}
 
-	int* arr_EM = new int[counter_waiting_EM];
+	int* arr_EM = new int[counter_waiting_EM];//create array for Emergency Mission'S IDS 
 	int i = 0;
-	while (copydata.dequeueFront(t))
+	while (copydata.dequeueFront(t))// put Emergency Mission'S IDS in arr_em
 	{
 		Waiting_EM.enqueue(t,t->GetPriority());
 		arr_EM[i] = (t->GetID());
@@ -200,15 +200,15 @@ void MarsStation::PrintOutput()
 	}
 	int counter_waiting_PM = 0;
 	Queue<Mission*> copydata_;
-	while (Waiting_PM.dequeue(t))
+	while (Waiting_PM.dequeue(t))//count number of polar mission in waiting list
 	{
 		copydata_.enqueue(t);
 		counter_waiting_PM++;
 	}
 	int TotalNumberOfWaitingMission = counter_waiting_PM + counter_waiting_EM;
-	int* arr_PM = new int[counter_waiting_PM];
+	int* arr_PM = new int[counter_waiting_PM];//create array for Polar Mission'S IDS 
 	i = 0;
-	while (copydata_.dequeue(t))
+	while (copydata_.dequeue(t))//put Emergency Mission'S IDS in arr_pm
 	{
 		Waiting_PM.enqueue(t);
 		arr_PM[i] = (t->GetID());
@@ -220,24 +220,24 @@ void MarsStation::PrintOutput()
 	int counter_PMInEXEC = 0;
 	while (InExec_rov.dequeueFront(M))
 	{
-		if (M->GetMission()->GetTypeOfMission() == Emergency)
+		if (M->GetMission()->GetTypeOfMission() == Emergency)//count number of Emergence mission in execlist 
 		{
 			counter_EMInEXEC++;
 		}
-		else
+		else//count number of polar mission in execlist 
 		{
 			counter_PMInEXEC++;
 
 		}
 		copydata2.enqueue(M,M->GetMission()->GetCD());
 	}
-	int* arr_InExec_EM_rover = new int[counter_EMInEXEC * 2];
-	int* arr_InExec_PM_rover = new int[counter_PMInEXEC * 2];
+	int* arr_InExec_EM_rover = new int[counter_EMInEXEC * 2];//create array for IDS of Emergency missions and IDS of rovers which assigned to in exclist
+	int* arr_InExec_PM_rover = new int[counter_PMInEXEC * 2];//create array for IDS of polar missions in exclist and IDS of rovers which assigned to in exclist
 	int j = 0;
 	int f = 0;
 	while (copydata2.dequeueFront(M))
 	{
-		if (M->GetMission()->GetTypeOfMission() == Emergency)
+		if (M->GetMission()->GetTypeOfMission() == Emergency)//put IDS of Emergency missions and IDS of rovers which assigned to in exclist
 		{
 			arr_InExec_EM_rover[j] = M->GetMission()->GetID();
 			j++;
@@ -246,7 +246,7 @@ void MarsStation::PrintOutput()
 		}
 		else
 		{
-			arr_InExec_PM_rover[f] = M->GetMission()->GetID();
+			arr_InExec_PM_rover[f] = M->GetMission()->GetID();//put IDS of polar missions in exclist and IDS of rovers which assigned to in exclist
 			f++;
 			arr_InExec_PM_rover[f] = M->GetID();
 			f++;
@@ -256,13 +256,13 @@ void MarsStation::PrintOutput()
 	j = 0;
 	Queue<Rover*>k_;
 	int counter_Av_ER=0;
-	while (Av_ER.dequeue(M))
+	while (Av_ER.dequeue(M))//count the number of available emergency rovers 
 	{
 		counter_Av_ER++;
 		k_.enqueue(M);
 	}
-	int* arr_Av_ER = new int[counter_Av_ER];
-	while (k_.dequeue(M))
+	int* arr_Av_ER = new int[counter_Av_ER];//create an array for available Emergency rovers 
+	while (k_.dequeue(M))//put IDS for available Emergency rovers
 	{
 		arr_Av_ER[j] = M->GetID();
 		j++;
@@ -270,13 +270,13 @@ void MarsStation::PrintOutput()
 	}
 	j = 0;
 	int counter_Av_PR = 0;
-	while (Av_PR.dequeue(M))
+	while (Av_PR.dequeue(M))//count the number of available polar rovers 
 	{
 		counter_Av_PR++;
 		k_.enqueue(M);
 	}
-	int* arr_Av_PR = new int[counter_Av_PR];
-	while (k_.dequeue(M))
+	int* arr_Av_PR = new int[counter_Av_PR];//create an array for available polar rovers 
+	while (k_.dequeue(M))//put IDS for available polar rovers
 	{
 		arr_Av_PR[j] = M->GetID();
 		j++;
@@ -284,13 +284,13 @@ void MarsStation::PrintOutput()
 	}
 	j = 0;
 	int counter_InCheckUp_PR = 0;
-	while (InCheckUp_PR.dequeue(M))
+	while (InCheckUp_PR.dequeue(M))//count the number of  polar rovers which it in check up time 
 	{
 		counter_InCheckUp_PR++;
 		k_.enqueue(M);
 	}
-	int* arr_InCheckUp_PR = new int[counter_InCheckUp_PR];
-	while (k_.dequeue(M))
+	int* arr_InCheckUp_PR = new int[counter_InCheckUp_PR];//create an array for IDs of polar rovers which is in check up time  
+	while (k_.dequeue(M))//put IDs of polar rovers which is in check up time in arr_InCheckUp_PR
 	{
 		arr_InCheckUp_PR[j] = M->GetID();
 		InCheckUp_PR.enqueue(M);
@@ -298,26 +298,22 @@ void MarsStation::PrintOutput()
 	}
 	j = 0;
 	int counter_InCheckUp_ER = 0;
-	while (InCheckUp_ER.dequeue(M))
+	while (InCheckUp_ER.dequeue(M))//count the number of Emergency rovers which is in check up time 
 	{
 		counter_InCheckUp_ER++;
 		k_.enqueue(M);
 	}
-	int* arr_InCheckUp_ER = new int[counter_InCheckUp_ER];
-	while (k_.dequeue(M))
+	int* arr_InCheckUp_ER = new int[counter_InCheckUp_ER];;//create an array for IDs of Emergency rovers which is in check up time 
+	while (k_.dequeue(M))//put IDs of emergency rovers which is in check up time in arr_InCheckUp_ER
 	{
 		arr_InCheckUp_ER[j] = M->GetID();
 		InCheckUp_ER.enqueue(M);
 		j++;
 	}
-
-
 	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, Count_Completed_EM, CompletedE_ID, Count_Completed_PM, CompletedP_ID);
 	
 	delete[]arr_Av_ER; delete[] arr_Av_PR; delete[] arr_EM; delete[] arr_InCheckUp_ER; delete[] arr_InCheckUp_PR;
 	delete[]arr_InExec_EM_rover; delete[] arr_InExec_PM_rover; delete[] arr_PM; 
-
-
 }
 
 void MarsStation::IncrementDay()
@@ -347,97 +343,6 @@ bool MarsStation::End_Sim()
 		return false;
 	}
 }
-
-
-
-//void MarsStation::InCrementWaiting()
-//{
-//	Mission* m_mission;
-//
-//	PriorityQueue<Mission*> temp;
-//
-//	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
-//	{
-//		Waiting_EM.dequeueFront(m_mission);
-//		m_mission->IncrementWD();
-//		temp.enqueue(m_mission,m_mission->GetPriority());
-//	}
-//	while (!temp.IsEmpty()) // returning missions to original queue
-//	{
-//		temp.dequeueFront(m_mission);
-//		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
-//	}
-//
-//	Queue <Mission*> p_temp;
-//
-//	while (!Waiting_PM.IsEmpty()) // Incrementing waiting Days of Polar Queue
-//	{
-//		Waiting_PM.dequeue(m_mission);
-//		m_mission->IncrementWD();
-//		p_temp.enqueue(m_mission);
-//	}
-//
-//	while (!p_temp.IsEmpty()) // returning missions to original queue
-//	{
-//		p_temp.dequeue(m_mission);
-//		Waiting_PM.enqueue(m_mission);
-//	}
-//
-//}
-//
-//void MarsStation::DeCrementInExecution()
-//{
-//	PriorityQueue<Rover*> temp;
-//	float x = 0;
-//	Rover* m_rover;
-//
-//	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
-//	{
-//		InExec_rov.dequeueFront(m_rover);
-//		m_rover->GetMission()->DecrementEX();
-//		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
-//	}
-//
-//	while (!temp.IsEmpty()) // returning rovers to original queue
-//	{
-//		temp.dequeueFront(m_rover);
-//		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
-//	}
-//}
-//
-//void MarsStation::DeCrementCheckUp()
-//{
-//	Queue<Rover*> tPR; 
-//	Queue<Rover*> tER;
-//
-//	Rover* m_rover;
-//	while (!InCheckUp_ER.IsEmpty()) // Dec days left for rover on checkup
-//	{
-//		InCheckUp_ER.dequeue(m_rover);
-//		m_rover->DecDaysOver();
-//		tER.enqueue(m_rover);
-//	}
-//
-//	while (!tER.IsEmpty()) // returning rovers to original queue
-//	{
-//		tER.dequeue(m_rover);
-//		InCheckUp_ER.enqueue(m_rover);
-//	}
-//
-//	while (!InCheckUp_PR.IsEmpty()) // Dec days left for rover on checkup
-//	{
-//		InCheckUp_PR.dequeue(m_rover);
-//		m_rover->DecDaysOver();
-//		tPR.enqueue(m_rover);
-//	}
-//
-//	while (!tPR.IsEmpty()) // returning rover to original queue
-//	{
-//		tPR.dequeue(m_rover);
-//		InCheckUp_PR.enqueue(m_rover);
-//	}
-//
-//}
 
 void MarsStation::CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL)
 {
