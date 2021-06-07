@@ -81,7 +81,7 @@ public:
 
 	//////////////////////////////////////////////
 	//Bonus Operations
-	void CheckMissionFail(); //Checks if mission failed
+	bool CheckMissionFail(Rover*); //Checks if mission failed
 
 	// UI Functions
 

@@ -84,7 +84,7 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		for (int i = 0; i < (counter_EMInEXEC*2); i = i + 2)
 		{
 			cout << arr_InExec_EM_rover[i] << "/" << arr_InExec_EM_rover[i + 1];
-			if (i != counter_waiting_PM - 1)
+			if (i != (counter_EMInEXEC * 2) - 2)
 			{
 				cout << ",";
 			}
@@ -93,7 +93,7 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		for (int i = 0; i < (counter_PMInEXEC*2); i = i + 2)
 		{
 			cout << arr_InExec_PM_rover[i] << "/" << arr_InExec_PM_rover[i + 1];
-			if (i != (counter_PMInEXEC*2) - 1)
+			if (i != (counter_PMInEXEC*2) - 2)
 			{
 				cout << ",";
 			}

@@ -128,18 +128,18 @@ void MarsStation::Assign()
 		else {
 			Av_PR.dequeue(availableR);
 		}
+		availableM->SetWaiting(Day - availableM->GetFD());
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
-		availableM->SetWaiting(Day - availableM->GetFD());
 		InExec_rov.enqueue(availableR, availableM->GetCD());
 	}
 	//assigning Polar missions
 	while (!Waiting_PM.IsEmpty() && !Av_PR.IsEmpty()) {
 		Waiting_PM.dequeue(availableM);
 		Av_PR.dequeue(availableR);
+		availableM->SetWaiting(Day - availableM->GetFD());
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
-		availableM->SetWaiting(Day - availableM->GetFD());
 		InExec_rov.enqueue(availableR, availableM->GetCD());
 	}
 	return;
@@ -190,6 +190,7 @@ void MarsStation::PrintOutput()
 	{
 		Waiting_EM.enqueue(t,t->GetPriority());
 		arr_EM[i] = (t->GetID());
+		i++;
 	}
 	int counter_waiting_PM = 0;
 	Queue<Mission*> copydata_;
@@ -200,10 +201,12 @@ void MarsStation::PrintOutput()
 	}
 	int TotalNumberOfWaitingMission = counter_waiting_PM + counter_waiting_EM;
 	int* arr_PM = new int[counter_waiting_PM];
+	i = 0;
 	while (copydata_.dequeue(t))
 	{
 		Waiting_PM.enqueue(t);
 		arr_PM[i] = (t->GetID());
+		i++;
 	}
 	Rover* M;
 	PriorityQueue<Rover*> copydata2;
@@ -456,9 +459,12 @@ void MarsStation::MoveCompMissions()
 		if (m_rover->GetMission()->GetCD() == Day) // If the day to be finished has come
 		{
 			InExec_rov.dequeueBack(m_rover); // Getting Finished mission
-			Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
-			m_rover->IncrementMissions();
-			MoveRover(m_rover);
+			if (!CheckMissionFail(m_rover))  //checking on mission failure possibility 
+			{
+				Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
+				m_rover->IncrementMissions();
+				MoveRover(m_rover);
+			}
 		}
 		else
 		{
@@ -493,18 +499,18 @@ void MarsStation::MoveRover (Rover * rov)
 	return;
 }
 
-void MarsStation::CheckMissionFail()
+bool MarsStation::CheckMissionFail(Rover* rov)
 {
-	Rover* rov;
-	while (InExec_rov.peekBack(rov) && rov->GetMission()->GetCD() == Day && rov->EngineFail()) {
-		InExec_rov.dequeueBack(rov);
+	if (rov->EngineFail()) {
 
 		//moving rover to checkup
 		if (rov->GetType() == Emergency_Rover) {
 			InCheckUp_ER.enqueue(rov);
+			rov->SetDaysOver(Day);
 		}
 		else {
 			InCheckUp_PR.enqueue(rov);
+			rov->SetDaysOver(Day);
 		}
 
 
@@ -519,9 +525,9 @@ void MarsStation::CheckMissionFail()
 		{
 			Waiting_PM.enqueue(mission);
 		}
-
+		return true;
 	}
-
+	return false;
 }
 
 void MarsStation::MoveCheckUpRovers()
@@ -577,8 +583,6 @@ void MarsStation::Simulate()
 	Assign();
 	// Moving on to the next day
 
-	//Checking for mission failure
-	CheckMissionFail();
 
 	// Moving Functions
 	MoveCompMissions();
