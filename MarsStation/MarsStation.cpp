@@ -8,7 +8,7 @@ MarsStation::MarsStation()
 	Count_Completed_PM = 0;
 	UI_ptr = new UI;
 }
-void MarsStation::Load()
+bool MarsStation::Load()
 {
 	//getting file name from the user
 	UI_ptr->OutputStr("Enter the INPUT file name (without the .txt extension) ");
@@ -29,6 +29,12 @@ void MarsStation::Load()
 	int content;
 	file >> content;
 	AddtoEventQ(file, content);
+	//checking if there were no rovers or no missions loaded
+	if (num_PR == 0 && num_ER == 0 || num_EM == 0 && num_PM == 0) {
+		UI_ptr->OutputStr("No Rovers/No Events were loaded...Ending Simulation.");
+		return false;
+	}
+	return true;
 }
 
 void MarsStation::Save()
@@ -579,6 +585,7 @@ void MarsStation::ExecuteEvents()
 
 void MarsStation::Simulate()
 {
+
 	ExecuteEvents();
 	Assign();
 	// Moving on to the next day

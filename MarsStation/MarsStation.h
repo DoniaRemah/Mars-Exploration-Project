@@ -58,7 +58,7 @@ public:
 	MarsStation(); // Constructor 
 
 	////////////////////////////////////////////////
-	void Load();
+	bool Load(); //returns false if zero rovers or zero events were loaded
 	void Save(); 	
 	void OutputStatistics(); //Prints statistics to the output file
 	void Save_CompleteM(); //dequeues and saves the completed missions to o/p file
