@@ -42,25 +42,9 @@ void Rover::IncrementMissions()
 	Num_Of_ExecMissions++;
 }
 
-void Rover::SetInCheckUp(bool status) 
-{
-	InCheckUp = status;
-}
 
-void Rover::SetIsAvailable(bool status)
-{
-	IsAvailable = status;
-}
 
-bool Rover:: GetAvailable()
-{
-	return IsAvailable;
-}
 
-bool Rover::GetInCheckup() 
-{
-	return InCheckUp;
-}
 
 int Rover::GetNumOfMissions() 
 {
@@ -74,9 +58,9 @@ int Rover::GetID()
 {
 	return ThisID;
 }
-void Rover::DecDaysOver()
+void Rover::SetDaysOver(int current_day)
 {
-	DaysChOver--;
+	DaysChOver = CheckUp_Duration + current_day ;
 }
 
 int Rover::GetDaysOver()

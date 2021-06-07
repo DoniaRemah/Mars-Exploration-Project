@@ -14,24 +14,7 @@ int main()
 
 	while (!MarsStration_Obj->End_Sim())
 	{
-		MarsStration_Obj->ExecuteEvents();
-		MarsStration_Obj->Assign();
-
-	
-		MarsStration_Obj->Refresh(); // Moving to Next Day
-
-		MarsStration_Obj->Save(); // Saving to output File
-		MarsStration_Obj->PrintOutput(); // Printing to console 
-
-
-		if (MarsStration_Obj->End_Sim()) // for printing statistics
-		{
-			MarsStration_Obj->OutputStatistics();
-			break;
-		}
-
-		MarsStration_Obj->IncrementDay();
-
+		MarsStration_Obj->Simulate();
 	}
 
 	delete MarsStration_Obj;

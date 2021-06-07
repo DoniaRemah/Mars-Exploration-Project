@@ -16,7 +16,6 @@ void Mission::Assign(Rover* R)
 	m_rover = R;
 	CalculateED();
 	CalculateCD();
-	DaysToBeOver = ExecutionDays;
 }
 
 int Mission::GetID() 
@@ -62,15 +61,6 @@ void Mission::CalculatePriority()  //Higher number -> Higher priority
 }
 
 
-void Mission::IncrementWD()
-{
-	WaitingDays++;
-}
-
-void Mission::DecrementEX()
-{
-	DaysToBeOver--;
-}
 
 float Mission::GetPriority()
 {
@@ -90,6 +80,12 @@ void Mission::Reformulate(int day)
 	FormulationDay = day;
 	WaitingDays = 0;
 }
+
+void Mission::SetWaiting(int n)
+{
+	WaitingDays = n;
+}
+
 Mission::~Mission()
 {
 

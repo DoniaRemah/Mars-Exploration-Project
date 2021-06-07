@@ -17,6 +17,7 @@ private:
 	UI* UI_ptr; // ptr to class dealing with input/output
 
 	int Day;
+	int mode;
 	int num_PM; // total number of Polar missions
 	int num_EM; // total number of Emergency missions
 
@@ -70,13 +71,10 @@ public:
 
 	void ExecuteEvents(); // checks if it's time to execute an event and does (returns true). If it's not time returns false. (Changeable)
 	bool End_Sim(); // Checks if All events are completed
-	void Refresh(); // Increments Day, does necessary movements across lists.
 	void Assign(); // assigns avaiable missions to rovers
 
 	///////////////////////////////////////////////
-	void InCrementWaiting();
-	void DeCrementInExecution();
-	void DeCrementCheckUp();
+
 	void MoveCompMissions();
 	void MoveCheckUpRovers();
 	void MoveRover(Rover*);
@@ -91,6 +89,8 @@ public:
 	void PrintOutput(); //Calls on Printoutput from UI
 
 	void IncrementDay();
+
+	void Simulate();
 
 	// Destructor
 	~MarsStation();

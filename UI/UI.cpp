@@ -26,7 +26,7 @@ UI::UI()
 	m_mode = 0;
 }
 
-void UI::ReadMode() 
+int UI::ReadMode() 
 {
 	int mode_ = -1;
 	cout << "Choose the mode: " << endl;
@@ -49,7 +49,9 @@ void UI::ReadMode()
 				cin >> mode_;
 				cin.get();
 		}
-	}     
+	} 
+
+	return m_mode;
 }
 
 void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiting_EM, int* arr_EM, int counter_waiting_PM, int* arr_PM, int counter_EMInEXEC, int* arr_InExec_EM_rover, int counter_PMInEXEC, int* arr_InExec_PM_rover, int counter_Av_ER, int* arr_Av_ER, int counter_Av_PR, int* arr_Av_PR, int counter_InCheckUp_ER, int* arr_InCheckUp_ER, int counter_InCheckUp_PR, int* arr_InCheckUp_PR, int counter_Completed_EM, Queue<int>& Completed_EM,int  counter_Completed_PM, Queue<int>& Completed_PM)
@@ -189,6 +191,7 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 		cout << endl;
 		if (m_mode == 1)
 		{
+			cout << "Press Enter to Continue...";
 			cin.get();
 			cout << endl;
 		}
@@ -202,9 +205,11 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 	{
 		cout << "Silent Mode" << endl;
 		cout << "Simulation Starts..." << endl;
-		cout << "Simulation ends,output file created";
+		cout << "Simulation ends,output file created" << endl;
 	}
 }
+
+
 
 void UI::PrintStatistics()
 {

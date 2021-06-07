@@ -130,6 +130,7 @@ void MarsStation::Assign()
 		}
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
+		availableM->SetWaiting(Day - availableM->GetFD());
 		InExec_rov.enqueue(availableR, availableM->GetCD());
 	}
 	//assigning Polar missions
@@ -138,6 +139,7 @@ void MarsStation::Assign()
 		Av_PR.dequeue(availableR);
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
+		availableM->SetWaiting(Day - availableM->GetFD());
 		InExec_rov.enqueue(availableR, availableM->GetCD());
 	}
 	return;
@@ -314,7 +316,7 @@ void MarsStation::IncrementDay()
 
 void MarsStation::ReadMode()
 {
-	UI_ptr->ReadMode();
+	mode = UI_ptr->ReadMode();
 }
 
 MarsStation::~MarsStation()
@@ -324,7 +326,7 @@ MarsStation::~MarsStation()
 
 bool MarsStation::End_Sim() 
 {
-	if (Events.IsEmpty() && Waiting_EM.IsEmpty() && Waiting_PM.IsEmpty() && InExec_rov.IsEmpty()) 
+	if (Events.IsEmpty() && Waiting_EM.IsEmpty() && Waiting_PM.IsEmpty() && InExec_rov.IsEmpty() && InCheckUp_ER.IsEmpty() && InCheckUp_PR.IsEmpty()) 
 	{
 		return true;
 	}
@@ -334,111 +336,96 @@ bool MarsStation::End_Sim()
 	}
 }
 
-void MarsStation::Refresh()
-{
 
-	// Re-arranging Queues. 
-	InCrementWaiting();
-	DeCrementCheckUp();
-	DeCrementInExecution();
 
-	//Checking for mission failure
-	CheckMissionFail();
-
-	// Moving Functions
-	MoveCompMissions();
-	MoveCheckUpRovers();
-
-}
-
-void MarsStation::InCrementWaiting()
-{
-	Mission* m_mission;
-
-	PriorityQueue<Mission*> temp;
-
-	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
-	{
-		Waiting_EM.dequeueFront(m_mission);
-		m_mission->IncrementWD();
-		temp.enqueue(m_mission,m_mission->GetPriority());
-	}
-	while (!temp.IsEmpty()) // returning missions to original queue
-	{
-		temp.dequeueFront(m_mission);
-		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
-	}
-
-	Queue <Mission*> p_temp;
-
-	while (!Waiting_PM.IsEmpty()) // Incrementing waiting Days of Polar Queue
-	{
-		Waiting_PM.dequeue(m_mission);
-		m_mission->IncrementWD();
-		p_temp.enqueue(m_mission);
-	}
-
-	while (!p_temp.IsEmpty()) // returning missions to original queue
-	{
-		p_temp.dequeue(m_mission);
-		Waiting_PM.enqueue(m_mission);
-	}
-
-}
-
-void MarsStation::DeCrementInExecution()
-{
-	PriorityQueue<Rover*> temp;
-	float x = 0;
-	Rover* m_rover;
-
-	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
-	{
-		InExec_rov.dequeueFront(m_rover);
-		m_rover->GetMission()->DecrementEX();
-		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
-	}
-
-	while (!temp.IsEmpty()) // returning rovers to original queue
-	{
-		temp.dequeueFront(m_rover);
-		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
-	}
-}
-
-void MarsStation::DeCrementCheckUp()
-{
-	Queue<Rover*> tPR; 
-	Queue<Rover*> tER;
-
-	Rover* m_rover;
-	while (!InCheckUp_ER.IsEmpty()) // Dec days left for rover on checkup
-	{
-		InCheckUp_ER.dequeue(m_rover);
-		m_rover->DecDaysOver();
-		tER.enqueue(m_rover);
-	}
-
-	while (!tER.IsEmpty()) // returning rovers to original queue
-	{
-		tER.dequeue(m_rover);
-		InCheckUp_ER.enqueue(m_rover);
-	}
-
-	while (!InCheckUp_PR.IsEmpty()) // Dec days left for rover on checkup
-	{
-		InCheckUp_PR.dequeue(m_rover);
-		m_rover->DecDaysOver();
-		tPR.enqueue(m_rover);
-	}
-
-	while (!tPR.IsEmpty()) // returning rover to original queue
-	{
-		tPR.dequeue(m_rover);
-		InCheckUp_PR.enqueue(m_rover);
-	}
-
-}
+//void MarsStation::InCrementWaiting()
+//{
+//	Mission* m_mission;
+//
+//	PriorityQueue<Mission*> temp;
+//
+//	while (!Waiting_EM.IsEmpty()) // Incrementing waiting Days of Emergency Queue
+//	{
+//		Waiting_EM.dequeueFront(m_mission);
+//		m_mission->IncrementWD();
+//		temp.enqueue(m_mission,m_mission->GetPriority());
+//	}
+//	while (!temp.IsEmpty()) // returning missions to original queue
+//	{
+//		temp.dequeueFront(m_mission);
+//		Waiting_EM.enqueue(m_mission,m_mission->GetPriority());
+//	}
+//
+//	Queue <Mission*> p_temp;
+//
+//	while (!Waiting_PM.IsEmpty()) // Incrementing waiting Days of Polar Queue
+//	{
+//		Waiting_PM.dequeue(m_mission);
+//		m_mission->IncrementWD();
+//		p_temp.enqueue(m_mission);
+//	}
+//
+//	while (!p_temp.IsEmpty()) // returning missions to original queue
+//	{
+//		p_temp.dequeue(m_mission);
+//		Waiting_PM.enqueue(m_mission);
+//	}
+//
+//}
+//
+//void MarsStation::DeCrementInExecution()
+//{
+//	PriorityQueue<Rover*> temp;
+//	float x = 0;
+//	Rover* m_rover;
+//
+//	while (!InExec_rov.IsEmpty()) // Decremnting Days left for missions to be executed.
+//	{
+//		InExec_rov.dequeueFront(m_rover);
+//		m_rover->GetMission()->DecrementEX();
+//		temp.enqueue(m_rover, m_rover->GetMission()->GetCD());
+//	}
+//
+//	while (!temp.IsEmpty()) // returning rovers to original queue
+//	{
+//		temp.dequeueFront(m_rover);
+//		InExec_rov.enqueue(m_rover, m_rover->GetMission()->GetCD());
+//	}
+//}
+//
+//void MarsStation::DeCrementCheckUp()
+//{
+//	Queue<Rover*> tPR; 
+//	Queue<Rover*> tER;
+//
+//	Rover* m_rover;
+//	while (!InCheckUp_ER.IsEmpty()) // Dec days left for rover on checkup
+//	{
+//		InCheckUp_ER.dequeue(m_rover);
+//		m_rover->DecDaysOver();
+//		tER.enqueue(m_rover);
+//	}
+//
+//	while (!tER.IsEmpty()) // returning rovers to original queue
+//	{
+//		tER.dequeue(m_rover);
+//		InCheckUp_ER.enqueue(m_rover);
+//	}
+//
+//	while (!InCheckUp_PR.IsEmpty()) // Dec days left for rover on checkup
+//	{
+//		InCheckUp_PR.dequeue(m_rover);
+//		m_rover->DecDaysOver();
+//		tPR.enqueue(m_rover);
+//	}
+//
+//	while (!tPR.IsEmpty()) // returning rover to original queue
+//	{
+//		tPR.dequeue(m_rover);
+//		InCheckUp_PR.enqueue(m_rover);
+//	}
+//
+//}
 
 void MarsStation::CreateMission(MissionType T, int id, int FD, int MD, int sig, int TL)
 {
@@ -467,6 +454,7 @@ void MarsStation::MoveCompMissions()
 		{
 			InExec_rov.dequeueBack(m_rover); // Getting Finished mission
 			Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
+			m_rover->IncrementMissions();
 			MoveRover(m_rover);
 		}
 		else
@@ -482,11 +470,13 @@ void MarsStation::MoveRover (Rover * rov)
 	if (rov->MoveToCheckup()) {
 		if (rov->GetType() == Emergency_Rover) {
 			InCheckUp_ER.enqueue(rov);
+			rov->SetDaysOver(Day);
 		}
 		else {
 			InCheckUp_PR.enqueue(rov);
+			rov->SetDaysOver(Day);
 		}
-		rov->SetInCheckUp(true);
+
 		return;
 	}
 
@@ -513,7 +503,7 @@ void MarsStation::CheckMissionFail()
 		else {
 			InCheckUp_PR.enqueue(rov);
 		}
-		rov->SetInCheckUp(true);
+
 
 		//reformulating mission
 		Mission* mission = rov->GetMission();
@@ -539,9 +529,10 @@ void MarsStation::MoveCheckUpRovers()
 
 	while (InCheckUp_ER.peek(m_rover)) // Getting Emergency rover soon to be finished / finished.
 	{
-		if (m_rover->GetDaysOver() == 0) // If rover has finished checkup
+		if (m_rover->GetDaysOver() == Day) // If rover has finished checkup
 		{
 			InCheckUp_ER.dequeue(m_rover); // remove from checkup queue
+			m_rover->ResetMissions();
 			Av_ER.enqueue(m_rover); // Add to available queue.
 		}
 		else
@@ -552,9 +543,10 @@ void MarsStation::MoveCheckUpRovers()
 
 	while (InCheckUp_PR.peek(m_rover)) // Getting Polar rover soon to be finished / finished.
 	{
-		if (m_rover->GetDaysOver() == 0) // If rover has finished checkup
+		if (m_rover->GetDaysOver() == Day) // If rover has finished checkup
 		{
 			InCheckUp_PR.dequeue(m_rover); // remove from checkup queue
+			m_rover->ResetMissions();
 			Av_PR.enqueue(m_rover); // Add to available queue.
 		}
 		else
@@ -576,3 +568,36 @@ void MarsStation::ExecuteEvents()
 	}
 }
 
+void MarsStation::Simulate()
+{
+	ExecuteEvents();
+	Assign();
+	// Moving on to the next day
+
+	//Checking for mission failure
+	CheckMissionFail();
+
+	// Moving Functions
+	MoveCompMissions();
+	MoveCheckUpRovers();
+
+	Save();
+
+	if (mode == 3 && End_Sim())
+	{
+		PrintOutput();
+	}
+	else if(mode ==1 || mode ==2)
+	{
+		PrintOutput();
+	}
+
+
+	if (End_Sim()) // for printing statistics
+	{
+		OutputStatistics();
+	}
+
+	IncrementDay();
+
+}
