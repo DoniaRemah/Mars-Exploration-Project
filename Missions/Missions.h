@@ -17,13 +17,13 @@ private:
 	int CompletionDay;
 	int MissionDuration;   
 	int Significance;
-	int TLocation;   // Distance from location of the mission from the base station
+	float TLocation;   // Distance from location of the mission from the base station
 	float priority; // For emergency missions only. Initially set to 0.
 	Rover* m_rover;
 
 public:
 
-	Mission(MissionType T, int id, int FD, int MD, int sig, int TL); // Constructor (Initializing Input Data)
+	Mission(MissionType T, int id, int FD, int MD, int sig, float TL); // Constructor (Initializing Input Data)
 
 	void Assign(Rover* R); // Assigning a rover to a mission
 

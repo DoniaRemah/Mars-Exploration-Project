@@ -1,6 +1,7 @@
 #include "Missions.h"
+#include<math.h>
 
-Mission::Mission(MissionType T, int id, int FD, int MD, int sig, int TL)
+Mission::Mission(MissionType T, int id, int FD, int MD, int sig, float TL)
 {
 	Type = T;
 	ID = id;
@@ -38,7 +39,7 @@ int Mission::GetED()
 
 void Mission::CalculateED() 
 {
-	ExecutionDays = ((TLocation * 2) / (m_rover->GetSpeed() * 25)) + MissionDuration;
+	ExecutionDays = ceil((TLocation * 2) / (m_rover->GetSpeed() * 25)) + MissionDuration;
 }
 
 void Mission::CalculateCD() 
