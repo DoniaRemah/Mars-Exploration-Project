@@ -9,6 +9,7 @@ int main()
 
 	MarsStation* MarsStration_Obj = new MarsStation;
 	bool ValidFile=MarsStration_Obj->Load();
+
 	if (!ValidFile) return 0; //if zero missions or zero rovers were loaded the simulation ends
 	MarsStration_Obj->ReadMode();
 

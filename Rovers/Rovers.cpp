@@ -92,6 +92,11 @@ bool Rover::EngineFail()
 	return false;
 }
 
+void Rover::HalfSpeed()
+{
+	speed = speed / 2;
+}
+
 Rover::~Rover() // Destructor
 {
 

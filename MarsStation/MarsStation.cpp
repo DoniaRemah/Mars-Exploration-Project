@@ -126,23 +126,47 @@ void MarsStation::Assign()
 	Mission* availableM;
 	Rover* availableR;
 	//assigning Emergency missions first
-	while (!Waiting_EM.IsEmpty() && (!Av_ER.IsEmpty() || !Av_PR.IsEmpty())) {
+	while (!Waiting_EM.IsEmpty() && (!Av_ER.IsEmpty() || !Av_PR.IsEmpty() || !Maintenance_ER.IsEmpty() || !Maintenance_PR.IsEmpty())  ) {
 		Waiting_EM.dequeueFront(availableM);
 		if (!Av_ER.IsEmpty()) {
 			Av_ER.dequeue(availableR);
 		}
-		else {
+		else if(!Av_PR.IsEmpty()){
 			Av_PR.dequeue(availableR);
 		}
+		else if (!Maintenance_ER.IsEmpty())
+		{
+			Maintenance_ER.dequeue(availableR);
+			availableR->HalfSpeed();
+		}
+		else
+		{
+			Maintenance_PR.dequeue(availableR);
+			availableR->HalfSpeed();
+		}
+
+
 		availableM->SetWaiting(Day - availableM->GetFD());
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
 		InExec_rov.enqueue(availableR, availableM->GetCD());
 	}
+
 	//assigning Polar missions
-	while (!Waiting_PM.IsEmpty() && !Av_PR.IsEmpty()) {
+	while (!Waiting_PM.IsEmpty() && (!Av_PR.IsEmpty()|| !Maintenance_PR.IsEmpty())) {
+
 		Waiting_PM.dequeue(availableM);
-		Av_PR.dequeue(availableR);
+		if (!Av_PR.IsEmpty())
+		{
+			Av_PR.dequeue(availableR);
+		}
+		else
+		{
+			Maintenance_PR.dequeue(availableR);
+			availableR->ResetMissions();
+			availableR->HalfSpeed();
+		}
+
 		availableM->SetWaiting(Day - availableM->GetFD());
 		availableR->Assign(availableM);
 		availableM->Assign(availableR);
@@ -373,9 +397,29 @@ void MarsStation::MoveCompMissions()
 			if (!CheckMissionFail(m_rover))  //checking on mission failure possibility 
 			{
 				Completed_M.enqueue(m_rover->GetMission()); // Putting it in completed missions queue
-				m_rover->IncrementMissions();
-				MoveRover(m_rover);
+
+				if (m_rover->GetMission()->GetED() >= 30) // checking possibility of Extra Maintenance
+				{
+					if (m_rover->GetType() == Emergency_Rover)
+					{
+						Maintenance_ER.enqueue(m_rover);
+						m_rover->SetDaysOver(Day);
+					}
+					else
+					{
+						Maintenance_PR.enqueue(m_rover);
+						m_rover->SetDaysOver(Day);
+					}
+				}
+				else
+				{
+					m_rover->IncrementMissions();
+					MoveRover(m_rover);
+				}
+
 			}
+
+
 		}
 		else
 		{
@@ -412,6 +456,7 @@ void MarsStation::MoveRover (Rover * rov)
 
 bool MarsStation::CheckMissionFail(Rover* rov)
 {
+	return false;
 	if (rov->EngineFail()) {
 
 		//moving rover to checkup
@@ -436,9 +481,9 @@ bool MarsStation::CheckMissionFail(Rover* rov)
 		{
 			Waiting_PM.enqueue(mission);
 		}
-		return true;
+		//return true;
 	}
-	return false;
+	//return false;
 }
 
 void MarsStation::MoveCheckUpRovers()
@@ -474,6 +519,34 @@ void MarsStation::MoveCheckUpRovers()
 			break;
 		}
 	}
+
+	while (Maintenance_ER.peek(m_rover))
+	{
+		if (m_rover->GetDaysOver() == Day)
+		{
+			Maintenance_ER.dequeue(m_rover);
+			m_rover->ResetMissions();
+			Av_ER.enqueue(m_rover);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	while (Maintenance_PR.peek(m_rover))
+	{
+		if (m_rover->GetDaysOver() == Day)
+		{
+			Maintenance_PR.dequeue(m_rover);
+			m_rover->ResetMissions();
+			Av_PR.enqueue(m_rover);
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 
@@ -501,6 +574,7 @@ void MarsStation::Simulate()
 	MoveCheckUpRovers();
 
 	Save();
+
 
 	if (mode == 3 && End_Sim())
 	{
