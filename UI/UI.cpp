@@ -210,8 +210,3 @@ void UI::PrintOutput(int day, int TotalNumberOfWaitingMission, int counter_waiti
 }
 
 
-
-void UI::PrintStatistics()
-{
-
-}
