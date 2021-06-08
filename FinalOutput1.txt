@@ -4,9 +4,9 @@ CD	ID	FD	WD	ED
 33	3	3	10	20
 37	4	4	16	17
 80	5	5	29	46
-137	6	6	81	50
+131	6	6	75	50
 ………………………………………………
 ………………………………………………
 Missions: 6[P: 3 E: 3]
 Rovers: 2[P: 1 E: 1]
-Average Wait= 22.6667	Average Exec= 26.6667
+Average Wait= 21.6667	Average Exec= 26.6667

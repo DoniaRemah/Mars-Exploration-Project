@@ -1,2 +1,0 @@
-CD	ID	FD	WD	ED
-51	6	1	0	50
