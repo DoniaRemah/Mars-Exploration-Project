@@ -1,0 +1,8 @@
+CD	ID	FD	WD	ED
+25	6	1	0	24
+48	5	5	21	22
+………………………………………………
+………………………………………………
+Missions: 2[P: 2 E: 0]
+Rovers: 2[P: 1 E: 1]
+Average Wait= 10.5	Average Exec= 23

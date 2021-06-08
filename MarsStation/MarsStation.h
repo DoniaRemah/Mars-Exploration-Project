@@ -46,8 +46,8 @@ private:
 	Queue<Rover*> InCheckUp_PR; // In check up Polar rovers
 	Queue<Rover*> InCheckUp_ER; // In check up Emergency rovers
 	PriorityQueue<Rover*> InExec_rov; // Rovers on a mission
-	Queue<Rover*> Maintenance_ER;
-	Queue<Rover*> Maintenance_PR;
+	Queue<Rover*> Maintenance_ER; //Emergency rovers in extra maintenance
+	Queue<Rover*> Maintenance_PR; //Polar rovers in extra maintenance
 
 	// Completed Missions
 	Queue<Mission*> Completed_M; // List of Completed Missions 

@@ -1,5 +1,6 @@
 #include "Rovers.h"
 #include<iostream>
+#include<math.h>
 using namespace std;
 
 int Rover::ID = 1; //Initializing the static data member ID
@@ -94,7 +95,7 @@ bool Rover::EngineFail()
 
 void Rover::HalfSpeed()
 {
-	speed = speed / 2;
+	speed = (speed + 1) / 2;
 }
 
 Rover::~Rover() // Destructor

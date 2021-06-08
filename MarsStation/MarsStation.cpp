@@ -313,11 +313,23 @@ void MarsStation::PrintOutput()
 		counter_InCheckUp_PR++;
 		k_.enqueue(M);
 	}
+	Queue<Rover*>l_;
+	while (Maintenance_PR.dequeue(M)) //count of polar rovers in extra maintenance
+	{
+		counter_InCheckUp_PR++;
+		l_.enqueue(M);
+	}
 	int* arr_InCheckUp_PR = new int[counter_InCheckUp_PR];//create an array for IDs of polar rovers which is in check up time  
 	while (k_.dequeue(M))//put IDs of polar rovers which is in check up time in arr_InCheckUp_PR
 	{
 		arr_InCheckUp_PR[j] = M->GetID();
 		InCheckUp_PR.enqueue(M);
+		j++;
+	}
+	while (l_.dequeue(M)) //adding the IDs of polar rovers that are in extra maintenance
+	{
+		arr_InCheckUp_PR[j] = M->GetID();
+		Maintenance_PR.enqueue(M);
 		j++;
 	}
 	j = 0;
@@ -327,11 +339,22 @@ void MarsStation::PrintOutput()
 		counter_InCheckUp_ER++;
 		k_.enqueue(M);
 	}
+	while (Maintenance_ER.dequeue(M)) //count of emergency rovers in extra maintenance
+	{
+		counter_InCheckUp_ER++;
+		l_.enqueue(M);
+	}
 	int* arr_InCheckUp_ER = new int[counter_InCheckUp_ER];;//create an array for IDs of Emergency rovers which is in check up time 
 	while (k_.dequeue(M))//put IDs of emergency rovers which is in check up time in arr_InCheckUp_ER
 	{
 		arr_InCheckUp_ER[j] = M->GetID();
 		InCheckUp_ER.enqueue(M);
+		j++;
+	}
+	while (l_.dequeue(M)) //adding the IDs of emergency rovers that are in extra maintenance
+	{
+		arr_InCheckUp_ER[j] = M->GetID();
+		Maintenance_ER.enqueue(M);
 		j++;
 	}
 	UI_ptr->PrintOutput(Day, TotalNumberOfWaitingMission, counter_waiting_EM, arr_EM, counter_waiting_PM, arr_PM, counter_EMInEXEC, arr_InExec_EM_rover, counter_PMInEXEC, arr_InExec_PM_rover, counter_Av_ER, arr_Av_ER, counter_Av_PR, arr_Av_PR, counter_InCheckUp_ER, arr_InCheckUp_ER, counter_InCheckUp_PR, arr_InCheckUp_PR, Count_Completed_EM, CompletedE_ID, Count_Completed_PM, CompletedP_ID);
@@ -456,7 +479,6 @@ void MarsStation::MoveRover (Rover * rov)
 
 bool MarsStation::CheckMissionFail(Rover* rov)
 {
-	return false;
 	if (rov->EngineFail()) {
 
 		//moving rover to checkup
@@ -481,9 +503,9 @@ bool MarsStation::CheckMissionFail(Rover* rov)
 		{
 			Waiting_PM.enqueue(mission);
 		}
-		//return true;
+		return true;
 	}
-	//return false;
+	return false;
 }
 
 void MarsStation::MoveCheckUpRovers()
